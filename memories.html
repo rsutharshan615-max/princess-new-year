@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memories Journey 📸</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/memories.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container memories-page">
+        <!-- Animated Background -->
+        <div class="bg-animation">
+            <div class="floating-photos"></div>
+            <div class="sparkles"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="hero-section">
+                <h1 class="page-title">
+                    <span class="gradient-text">Our Journey Together</span>
+                    <br>
+                    <span class="handwritten">Memories I'll Cherish Forever 💕</span>
+                </h1>
+
+                <!-- Timeline Navigation -->
+                <div class="timeline-nav">
+                    <button class="year-btn" data-year="2015">2015</button>
+                    <button class="year-btn" data-year="2016">2016</button>
+                    <button class="year-btn" data-year="2017">2017</button>
+                    <button class="year-btn" data-year="2018">2018</button>
+                    <button class="year-btn" data-year="2019">2019</button>
+                    <button class="year-btn" data-year="2020">2020</button>
+                    <button class="year-btn" data-year="2021">2021</button>
+                    <button class="year-btn" data-year="2022">2022</button>
+                    <button class="year-btn" data-year="2023">2023</button>
+                    <button class="year-btn" data-year="2024">2024</button>
+                    <button class="year-btn active" data-year="2025">2025</button>
+                </div>
+
+                <!-- Memory Timeline -->
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    
+                    <!-- 2015 Memories -->
+                    <div class="year-section" id="year-2015">
+                        <h2 class="year-title">2015 - School Days Begin 🏫</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="first-day">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">📚</span>
+                                        <span class="memory-text">First Day of School</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>First Day of School</h3>
+                                    <p>The beginning of our beautiful friendship journey!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">💕 I knew you'd be my special person from day one!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="classroom">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">🎒</span>
+                                        <span class="memory-text">Classroom Memories</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Classroom Memories</h3>
+                                    <p>Those secret notes and shared lunch moments!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🤫 Our classroom secrets made everything special!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2016 Memories -->
+                    <div class="year-section" id="year-2016">
+                        <h2 class="year-title">2016 - Growing Closer 🌱</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="temple">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">🛕</span>
+                                        <span class="memory-text">Temple Visits Together</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Temple Visits Together</h3>
+                                    <p>Our spiritual moments and peaceful times together!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🙏 Those prayers together meant everything!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="homework">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">📝</span>
+                                        <span class="memory-text">Study Sessions</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Study Sessions</h3>
+                                    <p>Helping each other with homework and exams!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">📚 We made studying so much fun together!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2017 Memories -->
+                    <div class="year-section" id="year-2017">
+                        <h2 class="year-title">2017 - School Adventures 🎉</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="sports">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">🏃‍♀️</span>
+                                        <span class="memory-text">Sports Day Fun</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Sports Day Fun</h3>
+                                    <p>Cheering for each other and celebrating victories!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🏆 You were my biggest champion always!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="birthday">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">🎂</span>
+                                        <span class="memory-text">Birthday Celebrations</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Birthday Celebrations</h3>
+                                    <p>Making each other's birthdays extra special!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🎉 Your birthdays are my favorite celebrations!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2018 Memories -->
+                    <div class="year-section" id="year-2018">
+                        <h2 class="year-title">2018 - Deeper Bond 💫</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="myhome">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">🏠</span>
+                                        <span class="memory-text">Visiting My Home</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Visiting My Home</h3>
+                                    <p>Those special moments at my place with family!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🏡 My home became happier because you visited!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="foodtreat">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">🍱</span>
+                                        <span class="memory-text">Food Treats</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Food Treats</h3>
+                                    <p>Our favorite food adventures and sharing meals!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🍽️ Every meal with you tastes better!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2019 Memories -->
+                    <div class="year-section" id="year-2019">
+                        <h2 class="year-title">2019 - Teenage Years 🌸</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="exams">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">📋</span>
+                                        <span class="memory-text">Exam Stress Support</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Exam Stress Support</h3>
+                                    <p>Getting through tough exams together!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">💪 We conquered exam stress as a team!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="summer">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">☀️</span>
+                                        <span class="memory-text">Summer Break Memories</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Summer Break Memories</h3>
+                                    <p>Those endless summer days of fun!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🌞 Summer with you was always magical!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2020 Memories -->
+                    <div class="year-section" id="year-2020">
+                        <h2 class="year-title">2020 - Pandemic Together 🤝</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="online">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">💻</span>
+                                        <span class="memory-text">Online Classes</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Online Classes</h3>
+                                    <p>Studying together even when apart!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">📱 Distance couldn't stop our friendship!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="support">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">❤️</span>
+                                        <span class="memory-text">Supporting Each Other</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Supporting Each Other</h3>
+                                    <p>Being there through the toughest times!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🤗 We got through it together!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2021 Memories -->
+                    <div class="year-section" id="year-2021">
+                        <h2 class="year-title">2021 - Back to School 🎒</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="reunion">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">👯‍♀️</span>
+                                        <span class="memory-text">Finally Together Again</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Finally Together Again</h3>
+                                    <p>The joy of meeting after so long!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">💕 That reunion hug meant everything!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="projects">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">🎨</span>
+                                        <span class="memory-text">School Projects</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>School Projects</h3>
+                                    <p>Creating amazing projects together!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🌟 We make the best team!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2022 Memories -->
+                    <div class="year-section" id="year-2022">
+                        <h2 class="year-title">2022 - Final School Year 🎓</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="farewell">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">👋</span>
+                                        <span class="memory-text">School Farewell</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>School Farewell</h3>
+                                    <p>Emotional goodbye to our school days!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🎓 We graduated with beautiful memories!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="milestone">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">🏆</span>
+                                        <span class="memory-text">Achieving Goals</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Achieving Goals</h3>
+                                    <p>Celebrating our academic achievements!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🎉 So proud of everything we achieved!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2023 Memories -->
+                    <div class="year-section" id="year-2023">
+                        <h2 class="year-title">2023 - College Begins 🏫</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="college-first">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">📚</span>
+                                        <span class="memory-text">First Day of College</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>First Day of College</h3>
+                                    <p>New chapter, same beautiful friendship!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🦋 College is better because you're here!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="newfriends">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">👥</span>
+                                        <span class="memory-text">Making New Friends</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Making New Friends</h3>
+                                    <p>Expanding our circle while staying close!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🌟 You're still my favorite person!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2024 Memories -->
+                    <div class="year-section" id="year-2024">
+                        <h2 class="year-title">2024 - College Life 🎉</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="college-life">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">🎓</span>
+                                        <span class="memory-text">College Adventures</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>College Adventures</h3>
+                                    <p>Navigating college life together!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🎊 Every college day is better with you!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="present">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">🎁</span>
+                                        <span class="memory-text">Right Now, Today</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Right Now, Today</h3>
+                                    <p>Our friendship is stronger than ever!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">💕 So grateful for you every single day!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2025 Memories -->
+                    <div class="year-section active" id="year-2025">
+                        <h2 class="year-title">2025 - Our Year 💖</h2>
+                        <div class="memories-grid">
+                            <div class="memory-card" data-memory="current">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">✨</span>
+                                        <span class="memory-text">This Beautiful Year</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>This Beautiful Year</h3>
+                                    <p>Creating memories that will last forever!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">🌟 This year is special because of you!</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="memory-card" data-memory="bond">
+                                <div class="memory-image">
+                                    <div class="memory-placeholder">
+                                        <span class="memory-icon">💞</span>
+                                        <span class="memory-text">Unbreakable Bond</span>
+                                    </div>
+                                </div>
+                                <div class="memory-content">
+                                    <h3>Unbreakable Bond</h3>
+                                    <p>From school to college, we're still inseparable!</p>
+                                    <div class="memory-secret hidden">
+                                        <p class="secret-message">👭 Sisters by heart, besties by choice!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Special Memory Section -->
+                <div class="special-memory">
+                    <h2 class="special-title">💫 My Favorite Memory With You 💫</h2>
+                    <div class="memory-highlight">
+                        <div class="highlight-content">
+                            <p class="highlight-text">Every single moment with you becomes my favorite memory. From the deep conversations at 2 AM to the silly dance parties in the kitchen, from the tears we've wiped away to the laughter that made our stomachs hurt - it's all precious because it's with you.</p>
+                            <button class="memory-btn" id="surpriseMemoryBtn">Click for a Surprise Memory 🎁</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="page-nav">
+                    <a href="surprises.html" class="nav-btn">
+                        <span>🎁 More Surprises</span>
+                        <div class="nav-arrow">→</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Year navigation
+        document.querySelectorAll('.year-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const year = this.dataset.year;
+                
+                // Update active button
+                document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show corresponding year section
+                document.querySelectorAll('.year-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(`year-${year}`).classList.add('active');
+            });
+        });
+
+        // Memory card interactions
+        document.querySelectorAll('.memory-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const secret = this.querySelector('.memory-secret');
+                if (secret.classList.contains('hidden')) {
+                    secret.classList.remove('hidden');
+                    secret.classList.add('reveal');
+                    this.classList.add('revealed');
+                }
+            });
+        });
+
+        // Surprise memory button
+        const surpriseMemories = [
+            "Remember our first day at school together? We were so nervous but excited! 📚",
+            "Those temple visits we made together - so peaceful and meaningful! 🛕",
+            "When you visited my home and made everyone smile with your presence! 🏠",
+            "Our food treat adventures - every meal was special with you! 🍱",
+            "Study sessions that turned into laughter marathons! 😂",
+            "The way we supported each other during exams - true friendship! 💪",
+            "College first day - new chapter but same amazing bond! 🎓",
+            "All those years from school to college, we never lost our connection! 💕"
+        ];
+
+        document.getElementById('surpriseMemoryBtn').addEventListener('click', function() {
+            const randomMemory = surpriseMemories[Math.floor(Math.random() * surpriseMemories.length)];
+            const popup = document.createElement('div');
+            popup.className = 'memory-popup';
+            popup.innerHTML = `
+                <div class="popup-content">
+                    <p>${randomMemory}</p>
+                    <button class="popup-close">💕 Aww, I remember!</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
+            
+            popup.querySelector('.popup-close').addEventListener('click', () => {
+                popup.remove();
+            });
+        });
+
+        // Add floating animation to memory cards
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-float');
+                }
+            });
+        });
+
+        document.querySelectorAll('.memory-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

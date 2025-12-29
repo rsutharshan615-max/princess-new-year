@@ -1,0 +1,421 @@
+/* Memories Page Specific Styles */
+
+/* Timeline Navigation */
+.timeline-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 30px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.year-btn {
+    background: var(--primary-blue);
+    color: var(--text-light);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.year-btn:hover {
+    background: var(--primary-purple);
+    transform: translateY(-2px);
+}
+
+.year-btn.active {
+    background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple));
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+}
+
+/* Timeline Container */
+.timeline-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--primary-pink), var(--primary-purple), var(--primary-blue));
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* Year Sections */
+.year-section {
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.year-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.year-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary-purple);
+    margin-bottom: 40px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Memories Grid */
+.memories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+/* Memory Cards */
+.memory-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.memory-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.memory-card.revealed {
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+}
+
+/* Memory Placeholder */
+.memory-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(155, 89, 182, 0.1));
+    border: 2px dashed rgba(255, 105, 180, 0.3);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.memory-placeholder .memory-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: var(--primary-purple);
+}
+
+.memory-placeholder .memory-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-purple);
+    text-align: center;
+    padding: 0 10px;
+}
+
+.memory-card:hover .memory-placeholder {
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(155, 89, 182, 0.2));
+    border-color: rgba(255, 105, 180, 0.5);
+}
+
+.memory-card:hover .memory-placeholder .memory-icon {
+    transform: scale(1.1);
+}
+
+/* Memory Image */
+.memory-image {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.memory-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.memory-card:hover .memory-image img {
+    transform: none;
+}
+
+.memory-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.memory-card:hover .memory-overlay {
+    opacity: 1;
+}
+
+.memory-icon {
+    font-size: 2rem;
+    color: var(--text-light);
+}
+
+/* Memory Content */
+.memory-content {
+    padding: 20px;
+}
+
+.memory-content h3 {
+    color: var(--primary-purple);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.memory-content p {
+    color: var(--text-dark);
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* Secret Messages */
+.memory-secret {
+    margin-top: 15px;
+    padding: 15px;
+    background: linear-gradient(45deg, rgba(255, 105, 180, 0.1), rgba(155, 89, 182, 0.1));
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-pink);
+}
+
+.memory-secret.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.memory-secret.reveal {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 200px;
+    margin-top: 15px;
+    padding: 15px;
+}
+
+.secret-message {
+    color: var(--primary-purple);
+    font-weight: 500;
+    font-style: italic;
+}
+
+/* Special Memory Section */
+.special-memory {
+    text-align: center;
+    margin: 80px 0;
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(155, 89, 182, 0.1));
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.special-title {
+    font-size: 2.5rem;
+    color: var(--primary-purple);
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.memory-highlight {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.highlight-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+}
+
+.memory-btn {
+    background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple));
+    color: var(--text-light);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.memory-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
+}
+
+/* Memory Popup */
+.memory-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
+    color: var(--text-light);
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.popup-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.popup-close {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.popup-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .timeline-nav {
+        padding: 15px;
+        gap: 8px;
+    }
+    
+    .year-btn {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+    }
+    
+    .timeline-line {
+        left: 20px;
+    }
+    
+    .memories-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 10px;
+    }
+    
+    .memory-image {
+        height: 150px;
+    }
+    
+    .year-title {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+    
+    .special-title {
+        font-size: 2rem;
+        padding: 0 20px;
+    }
+    
+    .highlight-text {
+        font-size: 1.1rem;
+        padding: 0 20px;
+    }
+    
+    .special-memory {
+        margin: 60px 20px;
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .timeline-nav {
+        gap: 5px;
+        padding: 10px;
+    }
+    
+    .year-btn {
+        padding: 6px 12px;
+        font-size: 0.7rem;
+    }
+    
+    .memory-content {
+        padding: 15px;
+    }
+    
+    .memory-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .memory-content p {
+        font-size: 0.9rem;
+    }
+    
+    .year-title {
+        font-size: 1.3rem;
+    }
+    
+    .special-title {
+        font-size: 1.8rem;
+    }
+    
+    .highlight-text {
+        font-size: 1rem;
+    }
+    
+    .memory-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    .popup-content {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    
+    .popup-content p {
+        font-size: 1.1rem;
+    }
+}

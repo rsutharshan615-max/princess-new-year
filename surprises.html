@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprises Galore! 🎁</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/birthday.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container surprises-page">
+        <!-- Animated Background -->
+        <div class="bg-animation">
+            <div class="floating-gifts"></div>
+            <div class="sparkles"></div>
+            <div class="confetti-container"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="hero-section">
+                <h1 class="page-title">
+                    <span class="gradient-text">Surprise Party!</span>
+                    <br>
+                    <span class="handwritten">Just For My Sister & Bestie 🎉</span>
+                </h1>
+
+                <!-- Surprise Grid -->
+                <div class="surprises-grid">
+                    <!-- Birthday Surprise -->
+                    <div class="surprise-card birthday-container">
+                        <h2>🎂 Enter My Birthday Date</h2>
+                        <div class="birthday-input-section">
+                            <input type="text" id="birthdayCode" placeholder="Enter in DD/MM/YYYY format..." class="birthday-input" maxlength="10">
+                            <button id="unlockBirthday" class="unlock-btn">Unlock Surprise 🎉</button>
+                        </div>
+                        <div id="birthdaySurprise" class="birthday-surprise hidden">
+                            <div class="photo-gallery">
+                                <h3>💕 Our Beautiful Brother-Sister Bond 💕</h3>
+                                <div class="photos-grid">
+                                    <div class="photo-item">
+                                        <img src="assets/images/brother-sister-1.jpg" alt="Brother Sister Love">
+                                        <div class="photo-caption">Forever Connected</div>
+                                    </div>
+                                    <div class="photo-item">
+                                        <img src="assets/images/brother-sister-2.jpg" alt="Sibling Bond">
+                                        <div class="photo-caption">Best Friends</div>
+                                    </div>
+                                    <div class="photo-item">
+                                        <img src="assets/images/brother-sister-3.jpg" alt="Family Love">
+                                        <div class="photo-caption">Always Together</div>
+                                    </div>
+                                    <div class="photo-item">
+                                        <img src="assets/images/brother-sister-4.jpg" alt="Sibling Care">
+                                        <div class="photo-caption">Protective Love</div>
+                                    </div>
+                                </div>
+                                <div class="bond-message">
+                                    <p>🌟 This bond we share is truly special - beyond friendship, beyond family. It's a connection that lasts forever! 🌟</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="hint">Hint: Think of when I came into this world! 🗓️</p>
+                    </div>
+
+                    <!-- Secret Code -->
+                    <div class="surprise-card secret-code-container">
+                        <h2>🔐 Enter Your DOB</h2>
+                        <div class="code-input-section">
+                            <input type="text" id="secretCode" placeholder="Enter in DD/MM/YYYY format..." class="code-input">
+                            <button id="unlockBtn" class="unlock-btn">Unlock 💝</button>
+                        </div>
+                        <div id="secretMessage" class="secret-output hidden">
+                            <p class="secret-text">Hey Bajaari......Lets rock together once again...</p>
+                        </div>
+                        <p class="hint">Hint: Think of your special day! �️</p>
+                    </div>
+
+                    <!-- Scratch Card -->
+                    <div class="surprise-card scratch-card-container">
+                        <h2>🎈 Scratch to Reveal Surprise!</h2>
+                        <div class="scratch-card">
+                            <canvas id="scratchCanvas" width="300" height="200"></canvas>
+                            <div class="scratch-content">
+                                <p class="scratch-message">You're my favorite person! 💖</p>
+                            </div>
+                        </div>
+                        <button class="reset-scratch">Reset Scratch Card</button>
+                    </div>
+
+                    <!-- Spin the Wheel -->
+                    <div class="surprise-card wheel-container">
+                        <h2>🎲 Spin the Wheel of Friendship!</h2>
+                        <div class="wheel-section">
+                            <div class="wheel" id="wheel">
+                                <div class="wheel-segment" data-prize="chocolates">Chocolates 🍫</div>
+                                <div class="wheel-segment" data-prize="panipuri">Pani Puri 🍱</div>
+                                <div class="wheel-segment" data-prize="advice">Life Advice 🧠</div>
+                                <div class="wheel-segment" data-prize="dance">Dance Party 🕺</div>
+                                <div class="wheel-segment" data-prize="special">Special Gifts 🎁</div>
+                                <div class="wheel-segment" data-prize="hug">Free Hug 🤗</div>
+                            </div>
+                            <button id="spinBtn" class="spin-btn">SPIN! 🎰</button>
+                        </div>
+                        <div id="wheelResult" class="wheel-result hidden">
+                            <p class="result-text"></p>
+                        </div>
+                    </div>
+
+                    <!-- Compliment Generator -->
+                    <div class="surprise-card compliment-container">
+                        <h2>✨ Why You're Amazing</h2>
+                        <div class="compliment-display">
+                            <p id="complimentText" class="compliment-text">Click to discover why you're incredible! 🌟</p>
+                        </div>
+                        <button id="complimentBtn" class="compliment-btn">Tell Me More! 💝</button>
+                    </div>
+
+                    <!-- Promise Box -->
+                    <div class="surprise-card promise-container">
+                        <h2>🤝 Friendship Promises</h2>
+                        <div class="promise-list">
+                            <div class="promise-item">
+                                <input type="checkbox" id="promise1">
+                                <label for="promise1">Always be there for each other 🤗</label>
+                            </div>
+                            <div class="promise-item">
+                                <input type="checkbox" id="promise2">
+                                <label for="promise2">Weekly check-ins, no matter what 📱</label>
+                            </div>
+                            <div class="promise-item">
+                                <input type="checkbox" id="promise3">
+                                <label for="promise3">More adventures, less stress 🗺️</label>
+                            </div>
+                            <div class="promise-item">
+                                <input type="checkbox" id="promise4">
+                                <label for="promise4">Celebrate every win, big or small 🎉</label>
+                            </div>
+                        </div>
+                        <button id="promiseBtn" class="promise-btn">Seal Our Promises! 💕</button>
+                    </div>
+                </div>
+
+                <!-- Special Surprise Section -->
+                <div class="special-surprise">
+                    <h2 class="special-title">🎁 The Ultimate Surprise 🎁</h2>
+                    <div class="surprise-box">
+                        <div class="box-lid">
+                            <span class="box-text">Click to Open! 🎀</span>
+                        </div>
+                        <div class="box-content hidden">
+                            <h3>🌟 You've Unlocked the Bestie Award! 🌟</h3>
+                            <p>Congratulations! You are officially the World's Best Bestie! This prestigious award comes with:</p>
+                            <ul class="award-list">
+                                <li>🏆 Unlimited access to my heart</li>
+                                <li>🤗 Lifetime supply of hugs</li>
+                                <li>📞 24/7 emergency call privileges</li>
+                                <li>🍕 Priority pizza ordering rights</li>
+                                <li>💕 All my love and appreciation</li>
+                            </ul>
+                            <button id="acceptAward" class="accept-btn">Accept My Gratitude! 💝</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="page-nav">
+                    <a href="letter.html" class="nav-btn">
+                        <span>💌 Read My Letter</span>
+                        <div class="nav-arrow">→</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/surprises.js"></script>
+    <script>
+        // Scratch Card Implementation
+        const canvas = document.getElementById('scratchCanvas');
+        const ctx = canvas.getContext('2d');
+        let isScratching = false;
+
+        // Initialize scratch card
+        function initScratchCard() {
+            ctx.fillStyle = '#FF69B4';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 24px Poppins';
+            ctx.textAlign = 'center';
+            ctx.fillText('SCRATCH ME!', canvas.width / 2, canvas.height / 2);
+        }
+
+        initScratchCard();
+
+        canvas.addEventListener('mousedown', (e) => {
+            isScratching = true;
+            scratch(e);
+        });
+
+        canvas.addEventListener('mousemove', scratch);
+
+        canvas.addEventListener('mouseup', () => {
+            isScratching = false;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            isScratching = false;
+        });
+
+        function scratch(e) {
+            if (!isScratching) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, 20, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Reset scratch card
+        document.querySelector('.reset-scratch').addEventListener('click', initScratchCard);
+
+        // Secret Code
+        const secretCodes = ['bestie', 'chella', 'soulmate', 'partner', 'rideordie'];
+        document.getElementById('unlockBtn').addEventListener('click', () => {
+            const input = document.getElementById('secretCode').value.toLowerCase();
+            const secretDiv = document.getElementById('secretMessage');
+            
+            if (secretCodes.includes(input)) {
+                secretDiv.classList.remove('hidden');
+                secretDiv.classList.add('reveal');
+                createConfetti();
+            } else {
+                document.getElementById('secretCode').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('secretCode').classList.remove('shake');
+                }, 500);
+            }
+        });
+
+        // Spin the Wheel
+        let isSpinning = false;
+        document.getElementById('spinBtn').addEventListener('click', () => {
+            if (isSpinning) return;
+            isSpinning = true;
+            
+            const wheel = document.getElementById('wheel');
+            const randomDegree = Math.floor(Math.random() * 360) + 720; // At least 2 full rotations
+            wheel.style.transform = `rotate(${randomDegree}deg)`;
+            
+            setTimeout(() => {
+                const prizes = ['Free Hug Voucher 🤗', 'Movie Night Promise 🎬', 'Coffee on Me ☕', 'You\'re My Favorite! 💕', 'Life Advice Session 🧠', 'Dance Party! 🕺'];
+                const prizeIndex = Math.floor((randomDegree % 360) / 60);
+                const result = prizes[prizeIndex];
+                
+                document.getElementById('wheelResult').classList.remove('hidden');
+                document.querySelector('.result-text').textContent = `🎉 You won: ${result}`;
+                isSpinning = false;
+            }, 3000);
+        });
+
+        // Random Messages
+        const messages = [
+            "Smile 😄 You're amazing!",
+            "You matter ❤️ More than you know!",
+            "You're my favorite person! 🌟",
+            "Thank you for existing! 💕",
+            "You make the world better! ✨",
+            "I'm so lucky to have you! 🍀",
+            "You're absolutely incredible! 🎉",
+            "Never change, you're perfect! 💖"
+        ];
+
+        let messageCount = 0;
+        document.getElementById('messageBtn').addEventListener('click', () => {
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('randomMessage').textContent = randomMsg;
+            messageCount++;
+            document.getElementById('messageCount').textContent = messageCount;
+        });
+
+        // Compliments
+        const compliments = [
+            "Your laugh is contagious and makes everything better! 😄",
+            "You have the biggest heart of anyone I know! ❤️",
+            "Your strength inspires me every single day! 💪",
+            "You're smarter than you give yourself credit for! 🧠",
+            "Your kindness changes lives, starting with mine! 🌟",
+            "You have an amazing sense of humor! 😂",
+            "Your friendship is the greatest gift in my life! 🎁",
+            "You light up every room you enter! ✨"
+        ];
+
+        document.getElementById('complimentBtn').addEventListener('click', () => {
+            const randomCompliment = compliments[Math.floor(Math.random() * compliments.length)];
+            document.getElementById('complimentText').textContent = randomCompliment;
+        });
+
+        // Promise Box
+        document.getElementById('promiseBtn').addEventListener('click', () => {
+            const checked = document.querySelectorAll('.promise-item input:checked').length;
+            if (checked >= 3) {
+                createHeartBurst();
+                alert('🎉 Our friendship promises are sealed! Forever and always! 💕');
+            } else {
+                alert('🤗 Check at least 3 promises to seal our friendship pact!');
+            }
+        });
+
+        // Special Surprise Box
+        document.querySelector('.box-lid').addEventListener('click', function() {
+            this.classList.add('open');
+            document.querySelector('.box-content').classList.remove('hidden');
+            createConfetti();
+        });
+
+        document.getElementById('acceptAward').addEventListener('click', () => {
+            alert('🏆 Award accepted! You\'ll receive your official certificate via bestie telepathy! 💕');
+        });
+
+        // Helper functions for effects
+        function createConfetti() {
+            // Simple confetti effect
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti-piece';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.backgroundColor = ['#FF69B4', '#FFD700', '#87CEEB', '#98FB98'][Math.floor(Math.random() * 4)];
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        function createHeartBurst() {
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-burst';
+                heart.innerHTML = '💕';
+                heart.style.left = '50%';
+                heart.style.top = '50%';
+                heart.style.transform = `rotate(${i * 18}deg) translateY(-100px)`;
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 2000);
+            }
+        }
+    </script>
+</body>
+</html>

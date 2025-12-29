@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Friendship Journey Map 🗺️</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Journey Map Styles */
+        .journey-map {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .map-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .journey-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .journey-title h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .journey-title .handwritten {
+            font-size: 1.8rem;
+            color: var(--primary-purple);
+        }
+
+        .journey-path {
+            position: relative;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 250px;
+            bottom: 50px;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary-pink), var(--primary-purple), var(--primary-blue));
+            transform: translateX(-50%);
+            border-radius: 2px;
+            z-index: 1;
+        }
+
+        .special-text {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0 60px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: pulse 3s ease-in-out infinite;
+            position: relative;
+            z-index: 3;
+        }
+
+        .year-station {
+            position: relative;
+            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .year-station:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .year-station:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .station-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.4rem;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
+            z-index: 4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .station-marker:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
+        }
+
+        .station-content {
+            flex: 1;
+            padding: 0 60px;
+        }
+
+        .year-station:nth-child(odd) .station-content {
+            text-align: right;
+            padding-right: 80px;
+        }
+
+        .year-station:nth-child(even) .station-content {
+            text-align: left;
+            padding-left: 80px;
+        }
+
+        .station-year {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-purple);
+            margin-bottom: 10px;
+        }
+
+        .station-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-pink);
+            margin-bottom: 15px;
+        }
+
+        .station-description {
+            font-size: 1rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .station-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .year-station:nth-child(even) .station-highlights {
+            justify-content: flex-start;
+        }
+
+        .highlight-tag {
+            background: linear-gradient(45deg, rgba(255, 105, 180, 0.1), rgba(155, 89, 182, 0.1));
+            color: var(--primary-purple);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 105, 180, 0.2);
+        }
+
+        .station-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 105, 180, 0.05);
+            border-radius: 15px;
+            border-left: 4px solid var(--primary-pink);
+            font-style: italic;
+            color: var(--primary-purple);
+            font-size: 0.95rem;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .station-details.show {
+            opacity: 1;
+            max-height: 200px;
+            margin-top: 15px;
+            padding: 15px;
+        }
+
+        .current-station .station-marker {
+            background: linear-gradient(45deg, var(--primary-gold), var(--primary-pink));
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .current-station .station-year {
+            color: var(--primary-gold);
+        }
+
+        .journey-summary {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(155, 89, 182, 0.1));
+            border-radius: 20px;
+        }
+
+        .summary-title {
+            font-size: 1.8rem;
+            color: var(--primary-purple);
+            margin-bottom: 20px;
+        }
+
+        .summary-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .journey-map {
+                padding: 20px 10px;
+            }
+
+            .map-container {
+                padding: 20px;
+            }
+
+            .journey-title h1 {
+                font-size: 2rem;
+            }
+
+            .journey-title .handwritten {
+                font-size: 1.4rem;
+            }
+
+            .year-station {
+                flex-direction: column !important;
+                align-items: flex-start;
+                padding-left: 40px;
+            }
+
+            .station-marker {
+                position: relative;
+                left: 0;
+                transform: none;
+                margin-bottom: 20px;
+                width: 70px;
+                height: 70px;
+                font-size: 1.2rem;
+            }
+
+            .station-content {
+                padding: 0 !important;
+                text-align: left !important;
+            }
+
+            .station-highlights {
+                justify-content: flex-start !important;
+            }
+
+            .journey-line {
+                left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container memories-page">
+        <!-- Animated Background -->
+        <div class="bg-animation">
+            <div class="floating-hearts"></div>
+            <div class="sparkles"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="hero-section">
+                <div class="journey-map">
+                    <div class="map-container">
+                        <div class="journey-title">
+                            <h1>My Friendship Dream Journey</h1>
+                            <p class="handwritten">A Wish for What Could Have Been 🌟</p>
+                        </div>
+
+                        <div class="journey-path">
+            <div class="special-text">Forever</div>
+            <div class="special-text">Ever</div>
+            <div class="special-text">and Ever</div>
+            <div class="special-text">Specially</div>
+            <div class="timeline-line"></div>
+            
+                            <!-- 2015 Station -->
+                            <div class="year-station">
+                                <div class="station-marker">2015</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2015</h3>
+                                    <h4 class="station-title">🏫 School Days Dream</h4>
+                                    <p class="station-description">I wish we had been close from the beginning - sharing first day experiences and classroom moments together.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">📚 First Day</span>
+                                        <span class="highlight-tag">🎒 Classroom</span>
+                                        <span class="highlight-tag">👋 New Friends</span>
+                                    </div>
+                                    <div class="station-details">
+                                        💕 I wish I had known you better from day one! Those first conversations and shared lunch moments could have started something beautiful.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2016 Station -->
+                            <div class="year-station">
+                                <div class="station-marker">2016</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2016</h3>
+                                    <h4 class="station-title">🌱 Growing Closer Dream</h4>
+                                    <p class="station-description">I wish our bond had grown stronger with temple visits and study sessions together during this time.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">🛕 Temple Visits</span>
+                                        <span class="highlight-tag">📝 Study Sessions</span>
+                                        <span class="highlight-tag">🤝 Support</span>
+                                    </div>
+                                    <div class="station-details">
+                                        🙏 I wish we had prayed together more! We could have made studying so much fun and supported each other through exams.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2017 Station -->
+                            <div class="year-station">
+                                <div class="station-marker">2017</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2017</h3>
+                                    <h4 class="station-title">🎉 School Adventures Dream</h4>
+                                    <p class="station-description">I wish we had shared sports day fun and celebrated birthdays together to make our friendship stronger.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">🏃‍♀️ Sports Day</span>
+                                        <span class="highlight-tag">🎂 Birthdays</span>
+                                        <span class="highlight-tag">🏆 Victories</span>
+                                    </div>
+                                    <div class="station-details">
+                                        🎉 I wish I had been your biggest champion always! Your birthdays could have been my favorite celebrations and we could have cheered for each other's victories.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2018 Station -->
+                            <div class="year-station">
+                                <div class="station-marker">2018</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2018</h3>
+                                    <h4 class="station-title">💫 Deeper Bond Dream</h4>
+                                    <p class="station-description">I wish we had created deeper connections through home visits and sharing food treats together.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">🏠 My Home</span>
+                                        <span class="highlight-tag">🍱 Food Treats</span>
+                                        <span class="highlight-tag">💬 Deep Talks</span>
+                                    </div>
+                                    <div class="station-details">
+                                        🏡 I wish my home had been happier because you visited! Every meal with you could have tasted better and our conversations could have meant everything.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2019 Station -->
+                            <div class="year-station">
+                                <div class="station-marker">2019</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2019</h3>
+                                    <h4 class="station-title">🌸 Teenage Years Dream</h4>
+                                    <p class="station-description">I wish we had supported each other through exam stress and shared summer break adventures together.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">📋 Exams</span>
+                                        <span class="highlight-tag">☀️ Summer</span>
+                                        <span class="highlight-tag">💪 Growth</span>
+                                    </div>
+                                    <div class="station-details">
+                                        💪 I wish we had conquered exam stress as a team! Summer with you could have been magical and we could have grown so much together.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2020 Station -->
+                            <div class="year-station">
+                                <div class="station-marker">2020</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2020</h3>
+                                    <h4 class="station-title">🤝 Pandemic Together Dream</h4>
+                                    <p class="station-description">I wish we had connected more during online classes and supported each other through those tough pandemic times.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">💻 Online Classes</span>
+                                        <span class="highlight-tag">❤️ Support</span>
+                                        <span class="highlight-tag">📱 Connection</span>
+                                    </div>
+                                    <div class="station-details">
+                                        🤗 I wish we had gotten through it together! Distance couldn't have stopped our friendship and we could have supported each other through the toughest times.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2021 Station -->
+                            <div class="year-station">
+                                <div class="station-marker">2021</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2021</h3>
+                                    <h4 class="station-title">🎒 Back to School Dream</h4>
+                                    <p class="station-description">I wish we had experienced reunion joy and created amazing projects together after returning to school.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">👯‍♀️ Reunion</span>
+                                        <span class="highlight-tag">🎨 Projects</span>
+                                        <span class="highlight-tag">🌟 Team Work</span>
+                                    </div>
+                                    <div class="station-details">
+                                        💕 I wish that reunion hug had meant everything! We could have made the best team and created amazing projects together.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2022 Station -->
+                            <div class="year-station">
+                                <div class="station-marker">2022</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2022</h3>
+                                    <h4 class="station-title">🎓 Final School Year Dream</h4>
+                                    <p class="station-description">I wish we had shared school farewell moments and celebrated academic achievements together.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">👋 Farewell</span>
+                                        <span class="highlight-tag">🏆 Achievement</span>
+                                        <span class="highlight-tag">🎓 Graduation</span>
+                                    </div>
+                                    <div class="station-details">
+                                        🎉 I wish we had been proud of everything we achieved! We could have graduated with beautiful memories and celebrated our academic success.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2023 Station -->
+                            <div class="year-station">
+                                <div class="station-marker">2023</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2023</h3>
+                                    <h4 class="station-title">🏫 College Begins Dream</h4>
+                                    <p class="station-description">I wish we had started this new chapter together with college adventures and making new friends.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">📚 First Day</span>
+                                        <span class="highlight-tag">👥 New Friends</span>
+                                        <span class="highlight-tag">🦋 Growth</span>
+                                    </div>
+                                    <div class="station-details">
+                                        🦋 I wish college had been better because you were here! You could have still been my favorite person and we could have navigated this new chapter together.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2024 Station -->
+                            <div class="year-station">
+                                <div class="station-marker">2024</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2024</h3>
+                                    <h4 class="station-title">🎉 College Life Dream</h4>
+                                    <p class="station-description">I wish we had navigated college life together and strengthened our bond during this time.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">🎓 Adventures</span>
+                                        <span class="highlight-tag">🎁 Present</span>
+                                        <span class="highlight-tag">💞 Bond</span>
+                                    </div>
+                                    <div class="station-details">
+                                        🎊 I wish every college day had been better with you! Our friendship could have been stronger than ever and I could have been grateful every single day.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2025 Station (Current) -->
+                            <div class="year-station current-station">
+                                <div class="station-marker">2025</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2025</h3>
+                                    <h4 class="station-title">💖 Our Year Dream</h4>
+                                    <p class="station-description">I wish we were creating memories that would last forever and celebrating our unbreakable bond this year.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">✨ Special</span>
+                                        <span class="highlight-tag">💞 Unbreakable</span>
+                                        <span class="highlight-tag">👭 Sisters</span>
+                                    </div>
+                                    <div class="station-details show">
+                                        🌟 I wish this year was special because of you! From school to college, we could have been inseparable. Sisters by heart, besties by choice!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2026 Station (Future) -->
+                            <div class="year-station">
+                                <div class="station-marker">2026</div>
+                                <div class="station-content">
+                                    <h3 class="station-year">2026</h3>
+                                    <h4 class="station-title">🚀 Future Dreams</h4>
+                                    <p class="station-description">I wish we could have new adventures together as we continue our journey forward.</p>
+                                    <div class="station-highlights">
+                                        <span class="highlight-tag">🛕 Temple Visits</span>
+                                        <span class="highlight-tag">🏫 School Memories</span>
+                                        <span class="highlight-tag">🏠 Home Time</span>
+                                        <span class="highlight-tag">🍱 Food Treats</span>
+                                    </div>
+                                    <div class="station-details">
+                                        🌈 I wish we could have more temple visits, school memories, home time, and food treats together! Our bond could remain the same until our last day.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="journey-summary">
+                            <h2 class="summary-title">💫 My Beautiful Dream Journey</h2>
+                            <p class="summary-text">
+                                This is my dream of what our friendship could have been from 2015 to 2025. 
+                                I wish we had been close from those first school days, sharing every moment together. 
+                                Through temple visits, home time, food treats, and college adventures, 
+                                I imagine how beautiful our sisterhood and friendship could have grown. 
+                                Even though we weren't that close in school days, my heart always wished for this journey. 
+                                Here's to the beautiful dream of what could have been, and what still might be! 💕
+                            </p>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="page-nav">
+                            <a href="letter.html" class="nav-btn">
+                                <span>💌 Personal Letter</span>
+                                <div class="nav-arrow">→</div>
+                            </a>
+                            <a href="surprises.html" class="nav-btn">
+                                <span>🎁 Fun Surprises</span>
+                                <div class="nav-arrow">→</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Station marker interactions
+        document.querySelectorAll('.station-marker').forEach(marker => {
+            marker.addEventListener('click', function() {
+                const details = this.nextElementSibling.querySelector('.station-details');
+                if (details) {
+                    details.classList.toggle('show');
+                }
+            });
+        });
+
+        // Add floating animation to stations on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.year-station').forEach(station => {
+            station.style.opacity = '0';
+            station.style.transform = 'translateY(30px)';
+            station.style.transition = 'all 0.6s ease-out';
+            observer.observe(station);
+        });
+
+        // Create floating hearts
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.querySelector('.bg-animation').appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 8000);
+        }
+
+        // Create floating hearts continuously
+        setInterval(createFloatingHeart, 3000);
+
+        // Start with some hearts
+        for (let i = 0; i < 3; i++) {
+            setTimeout(createFloatingHeart, i * 1000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year My Princess 💕</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container wish-page">
+        <!-- Animated Background -->
+        <div class="bg-animation">
+            <div class="fireworks-container"></div>
+            <div class="confetti-container"></div>
+            <div class="sparkles"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="hero-section">
+                <h1 class="main-title animate-fade-in">
+                    <span class="gradient-text">Happy New Year</span>
+                    <br>
+                    <span class="handwritten">My Princess 💕</span>
+                </h1>
+                
+                <!-- Message Card -->
+                <div class="message-card animate-slide-up">
+                    <div class="card-header">
+                        <div class="card-decoration">✨</div>
+                        <h2>A Special Message Just For You</h2>
+                        <div class="card-decoration">✨</div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div id="typewriter" class="typewriter-text"></div>
+                        <div class="message-actions">
+                            <button id="revealBtn" class="reveal-btn">Reveal Full Message 💝</button>
+                            <button id="nextBtn" class="next-btn">Continue to Memories 📸</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Elements -->
+                <div class="interactive-section">
+                    <!-- Floating hearts will appear automatically -->
+                </div>
+
+                <!-- Navigation -->
+                <div class="page-nav">
+                    <a href="memories-map.html" class="nav-btn">
+                        <span>🗺️ Our Journey Map</span>
+                        <div class="nav-arrow">→</div>
+                    </a>
+                    <a href="surprises.html" class="nav-btn">
+                        <span>🎁 Fun Surprises</span>
+                        <div class="nav-arrow">→</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden Full Message -->
+        <div id="fullMessage" class="hidden-message">
+            <div class="message-overlay">
+                <div class="message-content">
+                    <h3>My Heartfelt Wish For You 💕</h3>
+                    <p>Cheers to another year of laughter, endless talks, and memories I'll treasure forever. You're not just my bestie, you're my sister by heart, my partner in everything, my rock when I need support, and my biggest cheerleader.</p>
+                    <p>May this New Year bring you all the happiness you deserve, all the success you work hard for, and all the love you give so freely to others. I'm so grateful for every moment we've shared and I can't wait to create more amazing memories together.</p>
+                    <p>Here's to us! Here's to friendship! Here's to another year of being absolutely awesome together! 🥂✨</p>
+                    <button id="closeMessage" class="close-btn">💝 Thank You</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Element -->
+        <audio id="bgMusic" loop>
+            <source src="assets/music/bg-music.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script src="js/effects.js"></script>
+    <script>
+        // Typewriter effect
+        const messages = [
+            "Another year of amazing friendship begins... 🌟",
+            "Thank you for being the best part of my life... 💕",
+            "Here's to more laughter, more adventures, more US! 🥳",
+            "You make every day brighter just by being you... ✨",
+            "Happy New Year to my favorite human! 🎊"
+        ];
+
+        let messageIndex = 0;
+        let charIndex = 0;
+        let currentMessage = '';
+        let isDeleting = false;
+
+        function typeWriter() {
+            const typewriterElement = document.getElementById('typewriter');
+            
+            if (!isDeleting && charIndex < messages[messageIndex].length) {
+                currentMessage += messages[messageIndex].charAt(charIndex);
+                charIndex++;
+            } else if (isDeleting && charIndex > 0) {
+                currentMessage = currentMessage.substring(0, charIndex - 1);
+                charIndex--;
+            } else if (!isDeleting && charIndex === messages[messageIndex].length) {
+                isDeleting = true;
+                setTimeout(typeWriter, 2000);
+                return;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                messageIndex = (messageIndex + 1) % messages.length;
+            }
+
+            typewriterElement.textContent = currentMessage;
+            setTimeout(typeWriter, isDeleting ? 50 : 100);
+        }
+
+        // Start typewriter effect
+        typeWriter();
+
+        // Continuous floating hearts
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.querySelector('.bg-animation').appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 8000);
+        }
+
+        // Create floating hearts continuously
+        setInterval(createFloatingHeart, 2000);
+
+        // Start with some hearts
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createFloatingHeart, i * 500);
+        }
+
+        // Reveal full message
+        document.getElementById('revealBtn').addEventListener('click', () => {
+            document.getElementById('fullMessage').style.display = 'flex';
+        });
+
+        document.getElementById('closeMessage').addEventListener('click', () => {
+            document.getElementById('fullMessage').style.display = 'none';
+        });
+
+        // Start fireworks
+        setTimeout(() => startFireworks(), 1000);
+    </script>
+</body>
+</html>
