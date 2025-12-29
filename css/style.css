@@ -312,17 +312,76 @@ body {
 .nav-btn {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+    gap: 15px;
+    background: linear-gradient(135deg, #FF69B4, #9B59B6, #FF69B4);
+    color: white;
+    text-decoration: none;
+    padding: 18px 35px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    animation: buttonGlow 3s ease-in-out infinite;
+}
+
+.nav-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.nav-btn:hover::before {
+    left: 100%;
+}
+
+.nav-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(255, 105, 180, 0.6);
+    background: linear-gradient(135deg, #FF1493, #8B008B, #FF1493);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-btn:active {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.5);
 }
 
 .nav-arrow {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     transition: transform 0.3s ease;
+    animation: arrowBounce 2s ease-in-out infinite;
 }
 
 .nav-btn:hover .nav-arrow {
-    transform: translateX(5px);
+    transform: translateX(8px) scale(1.2);
+}
+
+@keyframes buttonGlow {
+    0%, 100% {
+        box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4), 0 0 20px rgba(255, 105, 180, 0.2);
+    }
+    50% {
+        box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6), 0 0 30px rgba(255, 105, 180, 0.4);
+    }
+}
+
+@keyframes arrowBounce {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(3px);
+    }
 }
 
 /* Hidden Messages */
