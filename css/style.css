@@ -1147,95 +1147,28 @@ body {
 .promise-item {
     display: flex;
     align-items: center;
-    margin: 15px 0;
-    padding: 15px 20px;
+    margin: 10px 0;
+    padding: 10px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    border: 2px solid rgba(255, 105, 180, 0.3);
+    border-radius: 10px;
     transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
 }
 
 .promise-item:hover {
     background: rgba(255, 105, 180, 0.2);
-    border-color: rgba(255, 105, 180, 0.5);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
 }
 
 .promise-item input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
-    width: 0;
-    height: 0;
-}
-
-.promise-item .custom-checkbox {
-    width: 24px;
-    height: 24px;
-    border: 2px solid var(--primary-pink);
-    border-radius: 6px;
-    margin-right: 15px;
-    position: relative;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-}
-
-.promise-item .custom-checkbox::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 6px;
-    height: 12px;
-    border: solid var(--primary-gold);
-    border-width: 0 2px 2px 0;
-    transform: translate(-50%, -60%) rotate(45deg);
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.promise-item input[type="checkbox"]:checked ~ .custom-checkbox {
-    background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
-    border-color: var(--primary-pink);
-    animation: checkboxPulse 0.4s ease;
-}
-
-.promise-item input[type="checkbox"]:checked ~ .custom-checkbox::before {
-    opacity: 1;
-    transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.promise-item input[type="checkbox"]:checked ~ label {
-    color: var(--primary-purple);
-    font-weight: 600;
-}
-
-@keyframes checkboxPulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.4);
-    }
-    50% {
-        transform: scale(1.1);
-        box-shadow: 0 0 0 8px rgba(255, 105, 180, 0.1);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 105, 180, 0);
-    }
 }
 
 .promise-item label {
     cursor: pointer;
     color: var(--text-dark);
     font-size: 0.95rem;
-    flex: 1;
-    transition: all 0.3s ease;
-    user-select: none;
 }
 
 .promise-btn {
