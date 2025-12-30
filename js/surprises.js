@@ -598,6 +598,200 @@ class SurpriseEngine {
     }
 }
 
+// Memory Game Logic
+class MemoryGame {
+    constructor() {
+        this.cards = [];
+        this.flippedCards = [];
+        this.matchedPairs = 0;
+        this.moves = 0;
+        this.gameTimer = null;
+        this.startTime = null;
+        this.isProcessing = false;
+        
+        // Friendship-themed symbols
+        this.symbols = ['�', '❣️', '😇', '🫶�', '😍', '🥰', '😊', '�', '✨', '💗', '�', '❤️'];
+        
+        this.init();
+    }
+    
+    init() {
+        this.setupGame();
+        this.bindEvents();
+    }
+    
+    setupGame() {
+        const grid = document.getElementById('memoryGrid');
+        if (!grid) return;
+        
+        // Create pairs of cards
+        const cardSymbols = [...this.symbols, ...this.symbols];
+        this.shuffleArray(cardSymbols);
+        
+        // Clear and populate grid
+        grid.innerHTML = '';
+        cardSymbols.forEach((symbol, index) => {
+            const card = document.createElement('div');
+            card.className = 'memory-card';
+            card.dataset.symbol = symbol;
+            card.dataset.index = index;
+            
+            card.innerHTML = `
+                <div class="card-front">?</div>
+                <div class="card-back">${symbol}</div>
+            `;
+            
+            grid.appendChild(card);
+            this.cards.push(card);
+        });
+    }
+    
+    bindEvents() {
+        const startBtn = document.getElementById('startGameBtn');
+        if (startBtn) {
+            startBtn.addEventListener('click', () => this.startNewGame());
+        }
+        
+        this.cards.forEach(card => {
+            card.addEventListener('click', () => this.flipCard(card));
+        });
+    }
+    
+    startNewGame() {
+        // Reset game state
+        this.flippedCards = [];
+        this.matchedPairs = 0;
+        this.moves = 0;
+        this.isProcessing = false;
+        
+        // Clear timer
+        if (this.gameTimer) {
+            clearInterval(this.gameTimer);
+        }
+        
+        // Reset UI
+        this.updateStats();
+        document.getElementById('gameMessage').classList.add('hidden');
+        
+        // Reset cards
+        this.cards.forEach(card => {
+            card.classList.remove('flipped', 'matched');
+        });
+        
+        // Shuffle and re-setup
+        this.shuffleArray(this.symbols);
+        const cardSymbols = [...this.symbols, ...this.symbols];
+        this.shuffleArray(cardSymbols);
+        
+        this.cards.forEach((card, index) => {
+            card.dataset.symbol = cardSymbols[index];
+            card.querySelector('.card-back').textContent = cardSymbols[index];
+        });
+        
+        // Start timer
+        this.startTimer();
+    }
+    
+    flipCard(card) {
+        if (this.isProcessing || card.classList.contains('flipped') || card.classList.contains('matched')) {
+            return;
+        }
+        
+        // Flip the card
+        card.classList.add('flipped');
+        this.flippedCards.push(card);
+        
+        // Check for match
+        if (this.flippedCards.length === 2) {
+            this.moves++;
+            this.updateStats();
+            this.checkMatch();
+        }
+    }
+    
+    checkMatch() {
+        this.isProcessing = true;
+        const [card1, card2] = this.flippedCards;
+        
+        if (card1.dataset.symbol === card2.dataset.symbol) {
+            // Match found
+            setTimeout(() => {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                this.matchedPairs++;
+                
+                // Check for win
+                if (this.matchedPairs === this.symbols.length) {
+                    this.gameWon();
+                }
+                
+                this.flippedCards = [];
+                this.isProcessing = false;
+            }, 600);
+        } else {
+            // No match
+            setTimeout(() => {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                this.flippedCards = [];
+                this.isProcessing = false;
+            }, 1000);
+        }
+    }
+    
+    startTimer() {
+        this.startTime = Date.now();
+        this.gameTimer = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('gameTime').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    }
+    
+    updateStats() {
+        document.getElementById('moveCount').textContent = this.moves;
+    }
+    
+    gameWon() {
+        clearInterval(this.gameTimer);
+        
+        const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+        const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        document.getElementById('finalTime').textContent = timeStr;
+        document.getElementById('finalMoves').textContent = this.moves;
+        document.getElementById('gameMessage').classList.remove('hidden');
+        
+        // Celebration effect
+        this.celebrate();
+    }
+    
+    celebrate() {
+        // Add celebration animation to matched cards
+        this.cards.forEach(card => {
+            if (card.classList.contains('matched')) {
+                card.style.animation = 'matchPulse 0.6s ease 3';
+            }
+        });
+    }
+    
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+}
+
+// Initialize memory game when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new MemoryGame();
+});
+
 // Initialize surprise engine when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.surpriseEngine = new SurpriseEngine();
