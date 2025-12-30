@@ -186,11 +186,9 @@ class SurpriseEngine {
             isScratching = true;
             const touch = e.touches[0];
             const rect = canvas.getBoundingClientRect();
-            const mouseEvent = new MouseEvent('mousedown', {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            this.scratch(mouseEvent, ctx, canvas);
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            this.scratchAt(x, y, ctx, canvas);
         }, { passive: false });
         
         canvas.addEventListener('touchmove', (e) => {
@@ -198,11 +196,9 @@ class SurpriseEngine {
             if (isScratching) {
                 const touch = e.touches[0];
                 const rect = canvas.getBoundingClientRect();
-                const mouseEvent = new MouseEvent('mousemove', {
-                    clientX: touch.clientX,
-                    clientY: touch.clientY
-                });
-                this.scratch(mouseEvent, ctx, canvas);
+                const x = touch.clientX - rect.left;
+                const y = touch.clientY - rect.top;
+                this.scratchAt(x, y, ctx, canvas);
             }
         }, { passive: false });
         
@@ -241,13 +237,20 @@ class SurpriseEngine {
         if (messageElement) {
             messageElement.textContent = randomMessage;
         }
+        
+        // Reset canvas opacity and pointer events
+        canvas.style.opacity = '1';
+        canvas.style.pointerEvents = 'auto';
     }
 
     scratch(e, ctx, canvas) {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+        this.scratchAt(x, y, ctx, canvas);
+    }
+
+    scratchAt(x, y, ctx, canvas) {
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath();
         ctx.arc(x, y, 20, 0, Math.PI * 2);
@@ -286,8 +289,6 @@ class SurpriseEngine {
             
             // Reset after delay
             setTimeout(() => {
-                canvas.style.opacity = '1';
-                canvas.style.pointerEvents = 'auto';
                 const ctx = canvas.getContext('2d');
                 this.resetScratchCard(ctx, canvas);
             }, 3000);
