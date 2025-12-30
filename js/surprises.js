@@ -601,8 +601,8 @@ class SurpriseEngine {
 // Puzzle Game Logic
 class PuzzleGame {
     constructor() {
-        // Use online image that works on GitHub Pages
-        this.imageUrl = 'https://picsum.photos/seed/princesspuzzle/400/400.jpg';
+        // Use a reliable image URL
+        this.imageUrl = 'https://picsum.photos/seed/friendshippuzzle/400/400.jpg';
         this.gridSize = 4;
         this.pieces = [];
         this.placedPieces = 0;
@@ -610,6 +610,7 @@ class PuzzleGame {
         this.timer = null;
         this.isInitialized = false;
         this.touchItem = null;
+        this.touchOffset = { x: 0, y: 0 };
         
         this.init();
     }
@@ -667,6 +668,7 @@ class PuzzleGame {
         board.style.border = '2px solid var(--primary-purple)';
         board.style.borderRadius = '10px';
         board.style.padding = '5px';
+        board.style.position = 'relative';
         
         // Create pieces
         for (let i = 0; i < this.gridSize * this.gridSize; i++) {
@@ -674,6 +676,7 @@ class PuzzleGame {
             piece.className = 'puzzle-piece';
             piece.dataset.correctPosition = i;
             piece.dataset.currentPosition = i;
+            piece.draggable = true;
             
             // Calculate background position
             const row = Math.floor(i / this.gridSize);
@@ -690,6 +693,9 @@ class PuzzleGame {
             piece.style.cursor = 'move';
             piece.style.transition = 'all 0.3s ease';
             piece.style.borderRadius = '5px';
+            piece.style.userSelect = 'none';
+            piece.style.webkitUserSelect = 'none';
+            piece.style.touchAction = 'none';
             
             // Add drag functionality
             this.addDragFunctionality(piece, i);
@@ -717,35 +723,44 @@ class PuzzleGame {
     
     addDragFunctionality(piece, originalIndex) {
         let draggedElement = null;
+        let touchStartPos = { x: 0, y: 0 };
         
         // Mouse events
         piece.addEventListener('dragstart', (e) => {
             draggedElement = e.target;
             e.target.style.opacity = '0.5';
+            e.dataTransfer.effectAllowed = 'move';
         });
         
         piece.addEventListener('dragend', (e) => {
             e.target.style.opacity = '';
+            draggedElement = null;
         });
         
         piece.addEventListener('dragover', (e) => {
             e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
         });
         
         piece.addEventListener('drop', (e) => {
             e.preventDefault();
-            if (e.target.classList.contains('puzzle-piece') && draggedElement !== e.target) {
+            if (draggedElement && e.target.classList.contains('puzzle-piece') && draggedElement !== e.target) {
                 this.swapPieces(draggedElement, e.target);
             }
+            draggedElement = null;
         });
         
         // Touch events for mobile
         piece.addEventListener('touchstart', (e) => {
             e.preventDefault();
+            const touch = e.touches[0];
+            touchStartPos = { x: touch.clientX, y: touch.clientY };
+            
             this.touchItem = e.target;
-            e.target.style.opacity = '0.5';
-            e.target.style.transform = 'scale(1.1)';
-            e.target.style.zIndex = '1000';
+            this.touchItem.style.opacity = '0.5';
+            this.touchItem.style.transform = 'scale(1.1)';
+            this.touchItem.style.zIndex = '1000';
+            this.touchItem.style.position = 'relative';
         }, { passive: false });
         
         piece.addEventListener('touchmove', (e) => {
@@ -753,37 +768,50 @@ class PuzzleGame {
             const touch = e.touches[0];
             const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
             
-            // Highlight the element below
+            // Clear all highlights
             document.querySelectorAll('.puzzle-piece').forEach(p => {
-                p.style.border = '1px solid #ddd';
+                if (p !== this.touchItem) {
+                    p.style.border = '1px solid #ddd';
+                    p.style.transform = '';
+                }
             });
             
-            if (elementBelow && elementBelow.classList.contains('puzzle-piece')) {
+            // Highlight the element below
+            if (elementBelow && elementBelow.classList.contains('puzzle-piece') && elementBelow !== this.touchItem) {
                 elementBelow.style.border = '3px solid var(--primary-purple)';
+                elementBelow.style.transform = 'scale(1.05)';
             }
         }, { passive: false });
         
         piece.addEventListener('touchend', (e) => {
             e.preventDefault();
             if (this.touchItem) {
-                this.touchItem.style.opacity = '';
-                this.touchItem.style.transform = '';
-                this.touchItem.style.zIndex = '';
-                
                 const touch = e.changedTouches[0];
                 const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
                 
+                // Reset touch item
+                this.touchItem.style.opacity = '';
+                this.touchItem.style.transform = '';
+                this.touchItem.style.zIndex = '';
+                this.touchItem.style.position = '';
+                
+                // Check if we should swap
                 if (elementBelow && elementBelow.classList.contains('puzzle-piece') && elementBelow !== this.touchItem) {
                     this.swapPieces(this.touchItem, elementBelow);
                 }
                 
-                // Reset borders
+                // Reset all borders and transforms
                 document.querySelectorAll('.puzzle-piece').forEach(p => {
                     this.checkPiecePlacement(p);
                 });
                 
                 this.touchItem = null;
             }
+        }, { passive: false });
+        
+        // Prevent default touch behavior
+        piece.addEventListener('touchstart', (e) => {
+            e.preventDefault();
         }, { passive: false });
     }
     
