@@ -906,7 +906,7 @@ body {
 }
 
 .mood-subtitle {
-    color: #FF1493;
+    color: #FF6B35;
     font-size: 1.2rem;
     margin-bottom: 30px;
     font-weight: 800;
@@ -922,7 +922,7 @@ body {
     background: rgba(255, 255, 255, 0.35);
     border-radius: 20px;
     margin-bottom: 30px;
-    border: 2px solid rgba(255, 20, 147, 0.4);
+    border: 2px solid rgba(255, 107, 53, 0.4);
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
@@ -932,12 +932,12 @@ body {
 .mood-intro:hover {
     background: rgba(255, 255, 255, 0.45);
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(255, 20, 147, 0.3);
+    box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
 }
 
 .mood-intro p {
     font-size: 1.3rem;
-    color: #FF1493;
+    color: #FF6B35;
     margin: 0 0 15px 0;
     font-weight: 800;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -945,7 +945,7 @@ body {
 
 .mood-hint {
     font-size: 0.95rem;
-    color: #FF1493;
+    color: #FF6B35;
     font-style: italic;
     opacity: 1;
     font-weight: 600;
@@ -954,7 +954,7 @@ body {
 
 .mood-label {
     font-size: 1rem;
-    color: #FF1493;
+    color: #FF6B35;
     font-weight: 800;
     position: relative;
     z-index: 1;
@@ -963,7 +963,7 @@ body {
 
 .mood-text {
     font-size: 1.4rem;
-    color: #FF1493;
+    color: #FF6B35;
     font-weight: 800;
     line-height: 1.6;
     margin: 0 0 25px 0;
@@ -972,19 +972,19 @@ body {
 
 .mood-action-btn.secondary {
     background: rgba(255, 255, 255, 0.4);
-    border: 2px solid #FF1493;
-    color: #FF1493;
+    border: 2px solid #FF6B35;
+    color: #FF6B35;
     font-weight: 800;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .mood-action-btn.secondary:hover {
-    background: rgba(255, 20, 147, 0.2);
+    background: rgba(255, 107, 53, 0.2);
 }
 
 .mood-extra-text {
     font-size: 0.95rem;
-    color: #FF1493;
+    color: #FF6B35;
     font-style: italic;
     margin: 0;
     line-height: 1.4;
@@ -993,9 +993,9 @@ body {
 }
 
 .mood-reset-btn {
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.3), rgba(255, 105, 180, 0.3));
-    color: #FF1493;
-    border: 2px solid #FF1493;
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.3), rgba(255, 140, 90, 0.3));
+    color: #FF6B35;
+    border: 2px solid #FF6B35;
     padding: 12px 25px;
     border-radius: 25px;
     font-size: 0.9rem;
@@ -1011,9 +1011,9 @@ body {
 
 .mood-reset-btn:hover {
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(255, 20, 147, 0.4);
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.4), rgba(255, 105, 180, 0.4));
-    border-color: #FF1493;
+    box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.4), rgba(255, 140, 90, 0.4));
+    border-color: #FF6B35;
 }
 
 /* Mobile Responsive for Mood Detector */
