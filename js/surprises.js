@@ -651,6 +651,211 @@ class SurpriseEngine {
     }
 }
 
+// Roast or Praise Game Logic
+class RoastOrPraiseGame {
+    constructor() {
+        this.roastMessages = [
+            "You overthink like it's your full-time job 😭",
+            "Drama level: Netflix Original 🎬",
+            "You say 'I'm fine' and mean 47 emotions 😏",
+            "Your mood swings have mood swings 🎢",
+            "You're allergic to early mornings ☕",
+            "Your phone battery dies faster than your motivation 📱",
+            "You have 100 tabs open in your brain 🧠",
+            "Your '5 minutes' means 30 minutes ⏰",
+            "You're the queen of 'I'll do it later' 👑",
+            "Your drama could win an Oscar 🏆",
+            "You're suspiciously good at finding problems 🔍",
+            "Your 'one last thing' is never one thing 🤷‍♀️",
+            "You have a PhD in overthinking 🎓",
+            "Your emotional range is impressive 😂",
+            "You're basically a walking meme generator 😈"
+        ];
+        
+        this.praiseMessages = [
+            "You make people feel safe just by existing 💖",
+            "You're rare. Like really rare ✨",
+            "Someone's comfort person = YOU 🫶",
+            "Your laugh is contagious 😄",
+            "You have a heart of pure gold 🏆",
+            "You're stronger than you give yourself credit for 💪",
+            "Your kindness changes lives 🌟",
+            "You're the definition of a true friend 🤗",
+            "You light up every room you enter 💡",
+            "Your wisdom beyond years is amazing 🧠",
+            "You're someone's reason to smile 😊",
+            "Your authenticity is refreshing 🌸",
+            "You make the world a better place 🌍",
+            "Your friendship is a treasure 💎",
+            "You're absolutely unforgettable 🌺"
+        ];
+        
+        this.buttonTexts = [
+            "Again 😏",
+            "One more 😂", 
+            "I'm brave 😈",
+            "Hit me again 🎯",
+            "Another round 🔄",
+            "Let's go! 🔥",
+            "Do your worst 😈",
+            "Bring it on! 💪",
+            "Surprise me 🎭",
+            "Challenge accepted 🎪"
+        ];
+        
+        this.clickCount = 0;
+        this.init();
+    }
+    
+    init() {
+        this.bindEvents();
+    }
+    
+    bindEvents() {
+        const button = document.getElementById('roastPraiseBtn');
+        if (button) {
+            button.addEventListener('click', () => this.handleClick());
+        }
+    }
+    
+    handleClick() {
+        this.clickCount++;
+        
+        // Random choice: 50% roast, 50% praise
+        const isRoast = Math.random() < 0.5;
+        
+        // Pick random message from correct array
+        const messages = isRoast ? this.roastMessages : this.praiseMessages;
+        const randomIndex = Math.floor(Math.random() * messages.length);
+        const message = messages[randomIndex];
+        
+        // Display result
+        this.displayResult(message, isRoast);
+        
+        // Update button text
+        this.updateButtonText();
+        
+        // Special easter egg for 10th click
+        if (this.clickCount === 10) {
+            this.triggerEasterEgg();
+        }
+    }
+    
+    displayResult(message, isRoast) {
+        const resultDiv = document.getElementById('roastPraiseResult');
+        const resultText = resultDiv.querySelector('.result-text');
+        
+        // Hide result first
+        resultDiv.classList.remove('show', 'roast-mode', 'praise-mode');
+        
+        // Set message
+        resultText.textContent = message;
+        
+        // Show result with animation after a small delay
+        setTimeout(() => {
+            resultDiv.classList.add('show', isRoast ? 'roast-mode' : 'praise-mode');
+            
+            // Scroll result into view on mobile
+            if (window.innerWidth <= 768) {
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100);
+        
+        // Play pop sound (optional - you can add this later)
+        this.playSound();
+    }
+    
+    updateButtonText() {
+        const button = document.getElementById('roastPraiseBtn');
+        const buttonText = button.querySelector('.btn-text');
+        
+        const randomText = this.buttonTexts[Math.floor(Math.random() * this.buttonTexts.length)];
+        buttonText.textContent = randomText;
+    }
+    
+    playSound() {
+        // Optional: Add sound effect here
+        // You can create a simple pop sound using Web Audio API
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        } catch (e) {
+            // Audio not supported, silently fail
+        }
+    }
+    
+    triggerEasterEgg() {
+        const resultDiv = document.getElementById('roastPraiseResult');
+        const resultText = resultDiv.querySelector('.result-text');
+        
+        // Special message for 10th click
+        const specialMessage = "🎉 YOU'VE REACHED LEVEL 10! You're officially addicted to this game! 🏆 Special achievement unlocked: Bestie Game Master! 🎮";
+        
+        resultText.textContent = specialMessage;
+        resultDiv.classList.remove('roast-mode', 'praise-mode');
+        resultDiv.classList.add('show');
+        resultDiv.style.background = 'linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 105, 180, 0.3))';
+        resultText.style.color = '#FFD700';
+        resultText.style.fontSize = '1.4rem';
+        
+        // Add confetti effect (simple version)
+        this.createConfetti();
+        
+        // Reset after 5 seconds
+        setTimeout(() => {
+            resultDiv.style.background = '';
+            resultText.style.fontSize = '';
+            this.clickCount = 0; // Reset counter
+        }, 5000);
+    }
+    
+    createConfetti() {
+        // Simple confetti effect using CSS
+        const colors = ['#FF69B4', '#FFD700', '#9B59B6', '#4CAF50', '#2196F3'];
+        const container = document.querySelector('.roast-praise-container');
+        
+        for (let i = 0; i < 30; i++) {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'absolute';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.borderRadius = '50%';
+            confetti.style.zIndex = '1000';
+            confetti.style.pointerEvents = 'none';
+            
+            container.appendChild(confetti);
+            
+            // Animate confetti falling
+            const duration = Math.random() * 2 + 1;
+            const horizontalMovement = (Math.random() - 0.5) * 100;
+            
+            confetti.animate([
+                { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                { transform: `translateY(300px) translateX(${horizontalMovement}px) rotate(360deg)`, opacity: 0 }
+            ], {
+                duration: duration * 1000,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+            }).onfinish = () => confetti.remove();
+        }
+    }
+}
+
 // Word Scramble Game Logic
 class WordScrambleGame {
     constructor() {
@@ -865,6 +1070,11 @@ class WordScrambleGame {
 // Initialize word scramble game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new WordScrambleGame();
+});
+
+// Initialize roast or praise game when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new RoastOrPraiseGame();
 });
 
 // Initialize surprise engine when DOM is loaded

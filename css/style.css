@@ -564,6 +564,239 @@ body {
     }
 }
 
+/* Roast or Praise Game Styles */
+.roast-praise-container {
+    background: linear-gradient(135deg, #FF69B4, #9B59B6);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    padding: 35px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.roast-praise-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.roast-praise-container h2 {
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.3); }
+    to { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.6); }
+}
+
+.roast-praise-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.roast-praise-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.roast-praise-btn {
+    background: linear-gradient(45deg, #FF1493, #FF69B4);
+    color: white;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    padding: 18px 40px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.roast-praise-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.roast-praise-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.roast-praise-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 35px rgba(255, 20, 147, 0.6);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.roast-praise-btn:active {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.5);
+}
+
+.btn-text {
+    position: relative;
+    z-index: 1;
+}
+
+.roast-praise-result {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.5s ease;
+}
+
+.roast-praise-result.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.result-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease 0.2s;
+}
+
+.roast-praise-result.show .result-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Roast Mode Styling */
+.roast-praise-result.roast-mode {
+    background: linear-gradient(135deg, rgba(255, 69, 0, 0.2), rgba(255, 0, 0, 0.2));
+    border-color: rgba(255, 69, 0, 0.4);
+}
+
+.roast-praise-result.roast-mode .result-text {
+    color: #FF6B6B;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+/* Praise Mode Styling */
+.roast-praise-result.praise-mode {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 105, 180, 0.2));
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+.roast-praise-result.praise-mode .result-text {
+    color: #FFD700;
+    animation: glow 1s ease-in-out;
+}
+
+@keyframes glow {
+    0%, 100% { 
+        text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        transform: translateY(0);
+    }
+    50% { 
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        transform: translateY(-5px);
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .roast-praise-container {
+        padding: 25px;
+    }
+    
+    .roast-praise-container h2 {
+        font-size: 1.6rem;
+    }
+    
+    .roast-praise-subtitle {
+        font-size: 1rem;
+    }
+    
+    .roast-praise-btn {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+    
+    .result-text {
+        font-size: 1.1rem;
+    }
+    
+    .roast-praise-result {
+        min-height: 70px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .roast-praise-container {
+        padding: 20px;
+    }
+    
+    .roast-praise-container h2 {
+        font-size: 1.4rem;
+    }
+    
+    .roast-praise-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+    
+    .result-text {
+        font-size: 1rem;
+    }
+    
+    .roast-praise-result {
+        min-height: 60px;
+        padding: 12px;
+    }
+}
+
 /* Spin Wheel */
 .wheel-section {
     margin: 20px 0;
