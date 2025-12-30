@@ -220,15 +220,34 @@ class SurpriseEngine {
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Set scratch surface
-        ctx.fillStyle = '#FF69B4';
+        // Create gradient background
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#FF69B4');
+        gradient.addColorStop(1, '#FF1493');
+        
+        // Set scratch surface with gradient
+        ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // Add text
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 24px Poppins';
+        // Add decorative elements
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.font = 'bold 28px Poppins';
         ctx.textAlign = 'center';
-        ctx.fillText('SCRATCH ME!', canvas.width / 2, canvas.height / 2);
+        ctx.fillText('🎈 SCRATCH ME! 🎈', canvas.width / 2, canvas.height / 2 - 10);
+        
+        ctx.font = '16px Poppins';
+        ctx.fillText('Reveal your surprise!', canvas.width / 2, canvas.height / 2 + 20);
+        
+        // Add sparkle effects
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+        for (let i = 0; i < 20; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const size = Math.random() * 3 + 1;
+            ctx.beginPath();
+            ctx.arc(x, y, size, 0, Math.PI * 2);
+            ctx.fill();
+        }
         
         // Update hidden message
         const messages = this.surpriseData.scratchMessages;
@@ -241,6 +260,13 @@ class SurpriseEngine {
         // Reset canvas opacity and pointer events
         canvas.style.opacity = '1';
         canvas.style.pointerEvents = 'auto';
+        
+        // Make sure canvas is properly positioned
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.zIndex = '10';
+        canvas.style.cursor = 'crosshair';
     }
 
     scratch(e, ctx, canvas) {
@@ -251,10 +277,21 @@ class SurpriseEngine {
     }
 
     scratchAt(x, y, ctx, canvas) {
+        // Create scratch effect
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath();
-        ctx.arc(x, y, 20, 0, Math.PI * 2);
+        ctx.arc(x, y, 25, 0, Math.PI * 2);
         ctx.fill();
+        
+        // Add scratch texture
+        for (let i = 0; i < 5; i++) {
+            const offsetX = (Math.random() - 0.5) * 20;
+            const offsetY = (Math.random() - 0.5) * 20;
+            const size = Math.random() * 10 + 5;
+            ctx.beginPath();
+            ctx.arc(x + offsetX, y + offsetY, size, 0, Math.PI * 2);
+            ctx.fill();
+        }
         
         // Check if enough has been scratched
         this.checkScratchProgress(ctx, canvas);
@@ -273,7 +310,7 @@ class SurpriseEngine {
         
         const percentage = (transparent / (canvas.width * canvas.height)) * 100;
         
-        if (percentage > 50) {
+        if (percentage > 60) {
             this.revealScratchMessage();
         }
     }
@@ -281,7 +318,9 @@ class SurpriseEngine {
     revealScratchMessage() {
         const canvas = document.getElementById('scratchCanvas');
         if (canvas) {
-            canvas.style.opacity = '0.3';
+            // Fade out the canvas
+            canvas.style.transition = 'opacity 0.5s ease';
+            canvas.style.opacity = '0';
             canvas.style.pointerEvents = 'none';
             
             // Add celebration effect
@@ -289,8 +328,12 @@ class SurpriseEngine {
             
             // Reset after delay
             setTimeout(() => {
+                canvas.style.transition = 'none';
                 const ctx = canvas.getContext('2d');
                 this.resetScratchCard(ctx, canvas);
+                setTimeout(() => {
+                    canvas.style.transition = 'opacity 0.5s ease';
+                }, 100);
             }, 3000);
         }
     }
