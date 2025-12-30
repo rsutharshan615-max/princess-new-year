@@ -601,13 +601,15 @@ class SurpriseEngine {
 // Puzzle Game Logic
 class PuzzleGame {
     constructor() {
-        this.imageUrl = 'C:/Users/Sutharshanaram/Downloads/WhatsApp Image 2025-10-15 at 7.21.42 PM (1).jpeg';
+        // Use online image that works on GitHub Pages
+        this.imageUrl = 'https://picsum.photos/seed/princesspuzzle/400/400.jpg';
         this.gridSize = 4;
         this.pieces = [];
         this.placedPieces = 0;
         this.startTime = null;
         this.timer = null;
         this.isInitialized = false;
+        this.touchItem = null;
         
         this.init();
     }
@@ -653,13 +655,18 @@ class PuzzleGame {
         board.innerHTML = '';
         this.pieces = [];
         
-        // Create grid
+        // Create responsive grid
+        const boardSize = this.getBoardSize();
         board.style.display = 'grid';
         board.style.gridTemplateColumns = `repeat(${this.gridSize}, 1fr)`;
         board.style.gap = '2px';
-        board.style.width = '400px';
-        board.style.height = '400px';
+        board.style.width = `${boardSize}px`;
+        board.style.height = `${boardSize}px`;
         board.style.margin = '0 auto';
+        board.style.background = '#f0f0f0';
+        board.style.border = '2px solid var(--primary-purple)';
+        board.style.borderRadius = '10px';
+        board.style.padding = '5px';
         
         // Create pieces
         for (let i = 0; i < this.gridSize * this.gridSize; i++) {
@@ -677,11 +684,12 @@ class PuzzleGame {
             piece.style.backgroundImage = `url(${this.imageUrl})`;
             piece.style.backgroundSize = `${this.gridSize * 100}px ${this.gridSize * 100}px`;
             piece.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
-            piece.style.width = '98px';
-            piece.style.height = '98px';
+            piece.style.width = `${this.getPieceSize()}px`;
+            piece.style.height = `${this.getPieceSize()}px`;
             piece.style.border = '1px solid #ddd';
             piece.style.cursor = 'move';
             piece.style.transition = 'all 0.3s ease';
+            piece.style.borderRadius = '5px';
             
             // Add drag functionality
             this.addDragFunctionality(piece, i);
@@ -694,9 +702,23 @@ class PuzzleGame {
         setTimeout(() => this.shufflePieces(), 1000);
     }
     
+    getBoardSize() {
+        const width = window.innerWidth;
+        if (width <= 360) return 240;
+        if (width <= 480) return 280;
+        if (width <= 768) return 320;
+        return 400;
+    }
+    
+    getPieceSize() {
+        const boardSize = this.getBoardSize();
+        return Math.floor((boardSize - 10) / this.gridSize) - 2;
+    }
+    
     addDragFunctionality(piece, originalIndex) {
         let draggedElement = null;
         
+        // Mouse events
         piece.addEventListener('dragstart', (e) => {
             draggedElement = e.target;
             e.target.style.opacity = '0.5';
@@ -713,28 +735,56 @@ class PuzzleGame {
         piece.addEventListener('drop', (e) => {
             e.preventDefault();
             if (e.target.classList.contains('puzzle-piece') && draggedElement !== e.target) {
-                // Swap pieces
                 this.swapPieces(draggedElement, e.target);
             }
         });
         
-        // Touch support for mobile
-        let touchItem = null;
-        
+        // Touch events for mobile
         piece.addEventListener('touchstart', (e) => {
-            touchItem = e.target;
+            e.preventDefault();
+            this.touchItem = e.target;
             e.target.style.opacity = '0.5';
-        });
+            e.target.style.transform = 'scale(1.1)';
+            e.target.style.zIndex = '1000';
+        }, { passive: false });
         
-        piece.addEventListener('touchend', (e) => {
-            e.target.style.opacity = '';
-            const touch = e.changedTouches[0];
+        piece.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
             const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
             
-            if (elementBelow && elementBelow.classList.contains('puzzle-piece') && elementBelow !== touchItem) {
-                this.swapPieces(touchItem, elementBelow);
+            // Highlight the element below
+            document.querySelectorAll('.puzzle-piece').forEach(p => {
+                p.style.border = '1px solid #ddd';
+            });
+            
+            if (elementBelow && elementBelow.classList.contains('puzzle-piece')) {
+                elementBelow.style.border = '3px solid var(--primary-purple)';
             }
-        });
+        }, { passive: false });
+        
+        piece.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (this.touchItem) {
+                this.touchItem.style.opacity = '';
+                this.touchItem.style.transform = '';
+                this.touchItem.style.zIndex = '';
+                
+                const touch = e.changedTouches[0];
+                const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                
+                if (elementBelow && elementBelow.classList.contains('puzzle-piece') && elementBelow !== this.touchItem) {
+                    this.swapPieces(this.touchItem, elementBelow);
+                }
+                
+                // Reset borders
+                document.querySelectorAll('.puzzle-piece').forEach(p => {
+                    this.checkPiecePlacement(p);
+                });
+                
+                this.touchItem = null;
+            }
+        }, { passive: false });
     }
     
     swapPieces(piece1, piece2) {
