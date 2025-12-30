@@ -876,8 +876,15 @@ body {
 }
 
 .promise-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(255, 105, 180, 0.5);
+    background: linear-gradient(135deg, #FF1493, #8B008B, #FF1493);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.promise-btn:active {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
 }
 
 /* Special Surprise */
