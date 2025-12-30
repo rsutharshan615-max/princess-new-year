@@ -900,6 +900,12 @@ class MoodDetector {
         document.querySelectorAll('.mood-card').forEach(card => {
             card.addEventListener('click', () => this.selectMood(card));
         });
+        
+        // Reset button
+        const resetBtn = document.getElementById('moodResetBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => this.resetMoodDetector());
+        }
     }
     
     showMoodSelection() {
@@ -1038,6 +1044,36 @@ class MoodDetector {
     showGeneralAction(action) {
         const moodText = document.querySelector('.mood-text');
         moodText.innerHTML = `${action}<br><small>This action would take you to another feature!</small>`;
+    }
+    
+    resetMoodDetector() {
+        const moodIntro = document.getElementById('moodIntro');
+        const moodSelection = document.getElementById('moodSelection');
+        const moodResponse = document.getElementById('moodResponse');
+        
+        // Hide response, show intro
+        moodResponse.classList.add('hidden');
+        moodSelection.classList.add('hidden');
+        moodIntro.classList.remove('hidden');
+        
+        // Reset selected states
+        document.querySelectorAll('.mood-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        
+        // Clear any active exercises
+        this.clearActiveExercise();
+    }
+    
+    clearActiveExercise() {
+        // Clear any ongoing exercises like breathing or countdown
+        const moodText = document.querySelector('.mood-text');
+        if (moodText) {
+            // Clear any timers or intervals
+            const timers = window.moodDetectorTimers || [];
+            timers.forEach(timer => clearTimeout(timer));
+            window.moodDetectorTimers = [];
+        }
     }
 }
 
