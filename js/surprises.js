@@ -226,6 +226,7 @@ class SurpriseEngine {
         ctx.fillText('SCRATCH ME!', canvas.width / 2, canvas.height / 2);
         
         // Update hidden message
+        this.imageUrl = 'https://picsum.photos/seed/ourmemory/500/500.jpg';
         const messages = this.surpriseData.scratchMessages;
         const randomMessage = messages[Math.floor(Math.random() * messages.length)];
         const messageElement = document.querySelector('.scratch-message');
@@ -610,7 +611,7 @@ class MemoryGame {
         this.isProcessing = false;
         
         // Friendship-themed symbols
-        this.symbols = ['�', '❣️', '😇', '🫶�', '😍', '🥰', '😊', '�', '✨', '💗', '�', '❤️'];
+        this.symbols = ['🙂', '❣️', '😇', '🫶🏻', '😍', '🥰', '😊', '�'];
         
         this.init();
     }

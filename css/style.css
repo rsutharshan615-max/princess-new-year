@@ -990,9 +990,12 @@ body {
 
 .memory-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
     margin: 20px 0;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .memory-card {
