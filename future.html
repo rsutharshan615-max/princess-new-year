@@ -484,5 +484,247 @@
             }
         }
     </script>
+
+    <!-- Official Certificate Section -->
+    <div class="certificate-section">
+        <div class="certificate-container">
+            <div class="certificate-header">
+                <h1 class="certificate-title">OFFICIALLY CERTIFIED – BEST GIRL 🏆</h1>
+                <div class="gold-line"></div>
+            </div>
+            
+            <div class="certificate-body">
+                <div class="certificate-text">
+                    <p class="certificate-intro">This certificate is officially presented to</p>
+                    <h2 class="recipient-name">✨ BEST GIRL ✨</h2>
+                    <p class="certificate-description">
+                        in recognition of her kindness, strength, humor,<br>
+                        and the positive energy she brings into every space.
+                    </p>
+                    <p class="certificate-official">
+                        She is hereby<br>
+                        <span class="official-certification">OFFICIALLY CERTIFIED AS THE BEST GIRL 🥇</span>
+                    </p>
+                </div>
+                
+                <div class="certificate-details">
+                    <div class="award-date">
+                        <p>Awarded on: <span id="certificateDate"></span></p>
+                    </div>
+                    <div class="certificate-signature">
+                        <p>Certified with appreciation and love,</p>
+                        <p class="signature-name">Your Sister & Bestie Forever 💕</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="certificate-stamp">
+                <div class="stamp-circle">
+                    <div class="stamp-text">
+                        <span class="stamp-top">Friendship Authority</span>
+                        <span class="stamp-divider">–</span>
+                        <span class="stamp-bottom">Verified</span>
+                        <span class="stamp-year">Since 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="certificate-actions">
+                <button id="downloadCertificate" class="download-btn">
+                    📥 Download Certificate
+                </button>
+                <button id="shareCertificate" class="share-btn">
+                    📸 Share Achievement
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certificate JavaScript -->
+    <script>
+        // Certificate Functionality
+        class CertificateManager {
+            constructor() {
+                this.init();
+            }
+            
+            init() {
+                this.setCertificateDate();
+                this.bindEvents();
+            }
+            
+            setCertificateDate() {
+                const dateElement = document.getElementById('certificateDate');
+                if (dateElement) {
+                    const today = new Date();
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    dateElement.textContent = today.toLocaleDateString('en-US', options);
+                }
+            }
+            
+            bindEvents() {
+                const downloadBtn = document.getElementById('downloadCertificate');
+                const shareBtn = document.getElementById('shareCertificate');
+                
+                if (downloadBtn) {
+                    downloadBtn.addEventListener('click', () => this.downloadCertificate());
+                }
+                
+                if (shareBtn) {
+                    shareBtn.addEventListener('click', () => this.shareCertificate());
+                }
+            }
+            
+            downloadCertificate() {
+                this.createCertificateImage();
+            }
+            
+            createCertificateImage() {
+                const certificate = document.querySelector('.certificate-container');
+                if (!certificate) return;
+                
+                // Create canvas
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Set canvas size
+                canvas.width = 1200;
+                canvas.height = 800;
+                
+                // Draw background
+                ctx.fillStyle = '#FFF8DC';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw border
+                ctx.strokeStyle = '#FFD700';
+                ctx.lineWidth = 6;
+                ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+                
+                // Draw title
+                ctx.fillStyle = '#2C3E50';
+                ctx.font = 'bold 48px Georgia';
+                ctx.textAlign = 'center';
+                ctx.fillText('OFFICIALLY CERTIFIED – BEST GIRL 🏆', canvas.width / 2, 100);
+                
+                // Draw gold line
+                ctx.strokeStyle = '#FFD700';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(canvas.width / 2 - 100, 130);
+                ctx.lineTo(canvas.width / 2 + 100, 130);
+                ctx.stroke();
+                
+                // Draw recipient name
+                ctx.fillStyle = '#2C3E50';
+                ctx.font = 'bold 64px Georgia';
+                ctx.fillText('✨ BEST GIRL ✨', canvas.width / 2, 250);
+                
+                // Draw description
+                ctx.fillStyle = '#34495E';
+                ctx.font = '32px Georgia';
+                ctx.fillText('in recognition of her kindness, strength, humor,', canvas.width / 2, 350);
+                ctx.fillText('and the positive energy she brings into every space.', canvas.width / 2, 390);
+                
+                // Draw official certification
+                ctx.fillStyle = '#2C3E50';
+                ctx.font = 'bold 36px Georgia';
+                ctx.fillText('OFFICIALLY CERTIFIED AS THE BEST GIRL 🥇', canvas.width / 2, 480);
+                
+                // Draw date
+                ctx.fillStyle = '#34495E';
+                ctx.font = '24px Georgia';
+                const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                ctx.fillText(`Awarded on: ${today}`, canvas.width / 2 - 200, 650);
+                
+                // Draw signature
+                ctx.font = '32px Dancing Script';
+                ctx.fillText('Your Sister & Bestie Forever 💕', canvas.width / 2 + 200, 650);
+                
+                // Download the image
+                const link = document.createElement('a');
+                link.download = 'Officially_Certified_Best_Girl.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                
+                // Show success message
+                this.showNotification('Certificate downloaded successfully! 🎉');
+            }
+            
+            shareCertificate() {
+                const shareText = '🏆 I just received my "OFFICIALLY CERTIFIED – BEST GIRL" certificate! 🥇✨';
+                const shareUrl = window.location.href;
+                
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Officially Certified Best Girl',
+                        text: shareText,
+                        url: shareUrl
+                    }).then(() => {
+                        this.showNotification('Certificate shared successfully! 📸');
+                    }).catch(() => {
+                        this.copyToClipboard(shareText, shareUrl);
+                    });
+                } else {
+                    this.copyToClipboard(shareText, shareUrl);
+                }
+            }
+            
+            copyToClipboard(text, url) {
+                const fullText = `${text}\n${url}`;
+                
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(fullText).then(() => {
+                        this.showNotification('Certificate link copied to clipboard! 📋');
+                    });
+                } else {
+                    const textArea = document.createElement('textarea');
+                    textArea.value = fullText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    this.showNotification('Certificate link copied to clipboard! 📋');
+                }
+            }
+            
+            showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'certificate-notification';
+                notification.textContent = message;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #FFD700, #FFA500);
+                    color: #2C3E50;
+                    padding: 15px 25px;
+                    border-radius: 50px;
+                    font-weight: 600;
+                    z-index: 10000;
+                    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+                    transform: translateX(400px);
+                    transition: transform 0.3s ease;
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(0)';
+                }, 100);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateX(400px)';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+        }
+
+        // Initialize certificate when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new CertificateManager();
+        });
+    </script>
 </body>
 </html>
