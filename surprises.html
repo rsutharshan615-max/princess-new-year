@@ -384,9 +384,23 @@
                 const result = prizes[prizeIndex];
                 
                 const wheelResult = document.getElementById('wheelResult');
+                const resultText = document.querySelector('.result-text');
+                
+                // Clear any existing classes
                 wheelResult.classList.remove('hidden');
                 wheelResult.classList.add('show');
-                document.querySelector('.result-text').textContent = `🎉 You won: ${result}`;
+                
+                // Set the result text with HTML for better visibility
+                resultText.innerHTML = `<div style="color: #2C3E50; font-weight: 900; font-size: 1.3rem;">🎉 You won: ${result}</div>`;
+                
+                // Force visibility
+                resultText.style.color = '#2C3E50';
+                resultText.style.fontWeight = '900';
+                resultText.style.fontSize = '1.3rem';
+                resultText.style.display = 'block';
+                resultText.style.visibility = 'visible';
+                resultText.style.opacity = '1';
+                
                 isSpinning = false;
             }, 3000);
         });
