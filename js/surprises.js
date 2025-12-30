@@ -215,18 +215,36 @@ class SurpriseEngine {
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Set scratch surface
-        ctx.fillStyle = '#FF69B4';
+        // Set scratch surface with gradient
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#FF69B4');
+        gradient.addColorStop(0.5, '#FF1493');
+        gradient.addColorStop(1, '#9B59B6');
+        ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // Add text
+        // Add decorative text
         ctx.fillStyle = '#FFFFFF';
         ctx.font = 'bold 24px Poppins';
         ctx.textAlign = 'center';
-        ctx.fillText('SCRATCH ME!', canvas.width / 2, canvas.height / 2);
+        ctx.fillText('SCRATCH ME!', canvas.width / 2, canvas.height / 2 - 10);
+        ctx.font = '16px Poppins';
+        ctx.fillText('✨ Reveal the surprise ✨', canvas.width / 2, canvas.height / 2 + 15);
+        
+        // Add sparkles
+        for (let i = 0; i < 5; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.beginPath();
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        // Reset progress
+        document.getElementById('scratchProgress').textContent = 'Scratch 50% to reveal!';
         
         // Update hidden message
-        this.imageUrl = 'https://picsum.photos/seed/ourmemory/500/500.jpg';
         const messages = this.surpriseData.scratchMessages;
         const randomMessage = messages[Math.floor(Math.random() * messages.length)];
         const messageElement = document.querySelector('.scratch-message');
@@ -242,10 +260,10 @@ class SurpriseEngine {
         
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath();
-        ctx.arc(x, y, 25, 0, Math.PI * 2);
+        ctx.arc(x, y, 20, 0, Math.PI * 2);
         ctx.fill();
         
-        // Check if enough has been scratched
+        // Check scratch progress
         this.checkScratchProgress(ctx, canvas);
     }
 
@@ -260,8 +278,15 @@ class SurpriseEngine {
             }
         }
         
-        const percentage = (transparent / (canvas.width * canvas.height)) * 100;
+        const percentage = Math.round((transparent / (canvas.width * canvas.height)) * 100);
         
+        // Update progress display
+        const progressElement = document.getElementById('scratchProgress');
+        if (progressElement) {
+            progressElement.textContent = `Scratched: ${percentage}%`;
+        }
+        
+        // Reveal message when enough is scratched
         if (percentage > 50) {
             this.revealScratchMessage();
         }
@@ -273,6 +298,9 @@ class SurpriseEngine {
             canvas.style.opacity = '0.3';
             canvas.style.pointerEvents = 'none';
             
+            // Update progress
+            document.getElementById('scratchProgress').textContent = 'Message revealed! 🎉';
+            
             // Add celebration effect
             this.createMiniCelebration();
             
@@ -282,7 +310,7 @@ class SurpriseEngine {
                 canvas.style.pointerEvents = 'auto';
                 const ctx = canvas.getContext('2d');
                 this.resetScratchCard(ctx, canvas);
-            }, 3000);
+            }, 5000);
         }
     }
 
@@ -603,11 +631,11 @@ class SurpriseEngine {
 class WordScrambleGame {
     constructor() {
         this.words = [
-            { word: 'PRINCESS', hint: 'What I call you! 👑' },
-            { word: 'SISTER', hint: 'Our special bond! 💕' },
-            { word: 'BESTIE', hint: 'What we are! 🤗' },
-            { word: 'FOREVER', hint: 'How long our friendship lasts! ∞' },
-            { word: 'FRIEND', hint: 'What you are to me! 🌟' }
+            { word: 'AKKA', hint: 'What you call me! 👑' },
+            { word: 'HARIN', hint: 'My name! 🌟' },
+            { word: 'BROSIS', hint: 'Our relationship! 💕' },
+            { word: 'FRIENDSHIP', hint: 'What we have! 🤗' },
+            { word: 'BLOODLINE', hint: 'Our connection! 👨‍👩‍👧‍👦' }
         ];
         
         this.currentWordIndex = 0;
