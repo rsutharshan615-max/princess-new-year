@@ -153,6 +153,10 @@ class SurpriseEngine {
         let scratchedPixels = 0;
         const totalPixels = canvas.width * canvas.height;
         
+        // Set canvas size properly
+        canvas.width = 300;
+        canvas.height = 200;
+        
         // Initialize scratch card with random message
         this.resetScratchCard(ctx, canvas);
         
@@ -178,29 +182,34 @@ class SurpriseEngine {
         
         // Touch events for mobile
         canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
             isScratching = true;
             const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
             const mouseEvent = new MouseEvent('mousedown', {
                 clientX: touch.clientX,
                 clientY: touch.clientY
             });
-            canvas.dispatchEvent(mouseEvent);
-        });
+            this.scratch(mouseEvent, ctx, canvas);
+        }, { passive: false });
         
         canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
             if (isScratching) {
                 const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
                 const mouseEvent = new MouseEvent('mousemove', {
                     clientX: touch.clientX,
                     clientY: touch.clientY
                 });
-                canvas.dispatchEvent(mouseEvent);
+                this.scratch(mouseEvent, ctx, canvas);
             }
-        });
+        }, { passive: false });
         
-        canvas.addEventListener('touchend', () => {
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
             isScratching = false;
-        });
+        }, { passive: false });
         
         // Reset button
         const resetBtn = document.querySelector('.reset-scratch');
@@ -241,7 +250,7 @@ class SurpriseEngine {
         
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath();
-        ctx.arc(x, y, 25, 0, Math.PI * 2);
+        ctx.arc(x, y, 20, 0, Math.PI * 2);
         ctx.fill();
         
         // Check if enough has been scratched
@@ -602,7 +611,7 @@ class SurpriseEngine {
 class PuzzleGame {
     constructor() {
         // Use a reliable image URL
-        this.imageUrl = 'https://picsum.photos/seed/friendshippuzzle/400/400.jpg';
+        this.imageUrl = 'https://picsum.photos/seed/puzzle2024/400/400.jpg';
         this.gridSize = 4;
         this.pieces = [];
         this.placedPieces = 0;
@@ -696,6 +705,7 @@ class PuzzleGame {
             piece.style.userSelect = 'none';
             piece.style.webkitUserSelect = 'none';
             piece.style.touchAction = 'none';
+            piece.style.position = 'relative';
             
             // Add drag functionality
             this.addDragFunctionality(piece, i);
@@ -730,6 +740,7 @@ class PuzzleGame {
             draggedElement = e.target;
             e.target.style.opacity = '0.5';
             e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', e.target.innerHTML);
         });
         
         piece.addEventListener('dragend', (e) => {
