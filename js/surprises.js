@@ -599,198 +599,220 @@ class SurpriseEngine {
     }
 }
 
-// Memory Game Logic
-class MemoryGame {
+// Word Scramble Game Logic
+class WordScrambleGame {
     constructor() {
-        this.cards = [];
-        this.flippedCards = [];
-        this.matchedPairs = 0;
-        this.moves = 0;
-        this.gameTimer = null;
-        this.startTime = null;
-        this.isProcessing = false;
+        this.words = [
+            { word: 'PRINCESS', hint: 'What I call you! 👑' },
+            { word: 'SISTER', hint: 'Our special bond! 💕' },
+            { word: 'BESTIE', hint: 'What we are! 🤗' },
+            { word: 'FOREVER', hint: 'How long our friendship lasts! ∞' },
+            { word: 'FRIEND', hint: 'What you are to me! 🌟' }
+        ];
         
-        // Friendship-themed symbols
-        this.symbols = ['🙂', '❣️', '😇', '🫶🏻', '😍', '🥰', '😊', '�'];
+        this.currentWordIndex = 0;
+        this.currentWord = '';
+        this.scrambledLetters = [];
+        this.selectedLetters = [];
+        this.score = 0;
+        this.hintsUsed = 0;
         
         this.init();
     }
     
     init() {
-        this.setupGame();
         this.bindEvents();
-    }
-    
-    setupGame() {
-        const grid = document.getElementById('memoryGrid');
-        if (!grid) return;
-        
-        // Create pairs of cards
-        const cardSymbols = [...this.symbols, ...this.symbols];
-        this.shuffleArray(cardSymbols);
-        
-        // Clear and populate grid
-        grid.innerHTML = '';
-        cardSymbols.forEach((symbol, index) => {
-            const card = document.createElement('div');
-            card.className = 'memory-card';
-            card.dataset.symbol = symbol;
-            card.dataset.index = index;
-            
-            card.innerHTML = `
-                <div class="card-front">?</div>
-                <div class="card-back">${symbol}</div>
-            `;
-            
-            grid.appendChild(card);
-            this.cards.push(card);
-        });
+        this.loadWord();
     }
     
     bindEvents() {
-        const startBtn = document.getElementById('startGameBtn');
-        if (startBtn) {
-            startBtn.addEventListener('click', () => this.startNewGame());
+        const submitBtn = document.getElementById('submitBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const hintBtn = document.getElementById('hintBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        if (submitBtn) {
+            submitBtn.addEventListener('click', () => this.checkAnswer());
         }
         
-        this.cards.forEach(card => {
-            card.addEventListener('click', () => this.flipCard(card));
-        });
-    }
-    
-    startNewGame() {
-        // Reset game state
-        this.flippedCards = [];
-        this.matchedPairs = 0;
-        this.moves = 0;
-        this.isProcessing = false;
-        
-        // Clear timer
-        if (this.gameTimer) {
-            clearInterval(this.gameTimer);
+        if (shuffleBtn) {
+            shuffleBtn.addEventListener('click', () => this.shuffleLetters());
         }
         
-        // Reset UI
-        this.updateStats();
-        document.getElementById('gameMessage').classList.add('hidden');
+        if (hintBtn) {
+            hintBtn.addEventListener('click', () => this.showHint());
+        }
         
-        // Reset cards
-        this.cards.forEach(card => {
-            card.classList.remove('flipped', 'matched');
-        });
-        
-        // Shuffle and re-setup
-        this.shuffleArray(this.symbols);
-        const cardSymbols = [...this.symbols, ...this.symbols];
-        this.shuffleArray(cardSymbols);
-        
-        this.cards.forEach((card, index) => {
-            card.dataset.symbol = cardSymbols[index];
-            card.querySelector('.card-back').textContent = cardSymbols[index];
-        });
-        
-        // Start timer
-        this.startTimer();
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => this.nextWord());
+        }
     }
     
-    flipCard(card) {
-        if (this.isProcessing || card.classList.contains('flipped') || card.classList.contains('matched')) {
+    loadWord() {
+        if (this.currentWordIndex >= this.words.length) {
+            this.gameComplete();
             return;
         }
         
-        // Flip the card
-        card.classList.add('flipped');
-        this.flippedCards.push(card);
+        const wordData = this.words[this.currentWordIndex];
+        this.currentWord = wordData.word;
         
-        // Check for match
-        if (this.flippedCards.length === 2) {
-            this.moves++;
-            this.updateStats();
-            this.checkMatch();
+        // Update hint
+        document.getElementById('wordHint').textContent = `Hint: ${wordData.hint}`;
+        
+        // Create scrambled letters
+        this.scrambledLetters = this.currentWord.split('').sort(() => Math.random() - 0.5);
+        this.selectedLetters = [];
+        
+        // Update UI
+        this.updateWordDisplay();
+        this.updateStats();
+        
+        // Hide next button
+        document.getElementById('nextBtn').classList.add('hidden');
+        document.getElementById('scrambleResult').classList.add('hidden');
+    }
+    
+    updateWordDisplay() {
+        const scrambledWordDiv = document.getElementById('scrambledWord');
+        const selectedWordDiv = document.getElementById('selectedWord');
+        
+        // Clear and populate scrambled letters
+        scrambledWordDiv.innerHTML = '';
+        this.scrambledLetters.forEach((letter, index) => {
+            const button = document.createElement('button');
+            button.className = 'letter-tile';
+            button.textContent = letter;
+            button.dataset.index = index;
+            button.addEventListener('click', () => this.selectLetter(index));
+            scrambledWordDiv.appendChild(button);
+        });
+        
+        // Update selected word display
+        selectedWordDiv.textContent = this.selectedLetters.join('');
+    }
+    
+    selectLetter(index) {
+        if (this.scrambledLetters[index] === null) return;
+        
+        // Add letter to selection
+        this.selectedLetters.push(this.scrambledLetters[index]);
+        this.scrambledLetters[index] = null;
+        
+        // Update display
+        this.updateWordDisplay();
+        
+        // Check if word is complete
+        if (this.selectedLetters.length === this.currentWord.length) {
+            this.checkAnswer();
         }
     }
     
-    checkMatch() {
-        this.isProcessing = true;
-        const [card1, card2] = this.flippedCards;
+    checkAnswer() {
+        const answer = this.selectedLetters.join('');
         
-        if (card1.dataset.symbol === card2.dataset.symbol) {
-            // Match found
-            setTimeout(() => {
-                card1.classList.add('matched');
-                card2.classList.add('matched');
-                this.matchedPairs++;
-                
-                // Check for win
-                if (this.matchedPairs === this.symbols.length) {
-                    this.gameWon();
-                }
-                
-                this.flippedCards = [];
-                this.isProcessing = false;
-            }, 600);
+        if (answer === this.currentWord) {
+            // Correct answer
+            this.score += 10;
+            this.showResult(true);
+            document.getElementById('nextBtn').classList.remove('hidden');
         } else {
-            // No match
-            setTimeout(() => {
-                card1.classList.remove('flipped');
-                card2.classList.remove('flipped');
-                this.flippedCards = [];
-                this.isProcessing = false;
-            }, 1000);
+            // Wrong answer
+            this.showResult(false);
+            // Return letters to scrambled
+            this.selectedLetters.forEach((letter, index) => {
+                const emptyIndex = this.scrambledLetters.findIndex(l => l === null);
+                if (emptyIndex !== -1) {
+                    this.scrambledLetters[emptyIndex] = letter;
+                }
+            });
+            this.selectedLetters = [];
+            this.updateWordDisplay();
+        }
+        
+        this.updateStats();
+    }
+    
+    shuffleLetters() {
+        const availableLetters = this.scrambledLetters.filter(l => l !== null);
+        const usedLetters = this.scrambledLetters.filter(l => l === null);
+        
+        // Shuffle available letters
+        availableLetters.sort(() => Math.random() - 0.5);
+        
+        // Rebuild array
+        let newIndex = 0;
+        this.scrambledLetters = this.scrambledLetters.map(() => {
+            if (newIndex < availableLetters.length) {
+                return availableLetters[newIndex++];
+            }
+            return null;
+        });
+        
+        this.updateWordDisplay();
+    }
+    
+    showHint() {
+        if (this.selectedLetters.length >= this.currentWord.length) return;
+        
+        // Find next correct letter
+        const nextIndex = this.selectedLetters.length;
+        const correctLetter = this.currentWord[nextIndex];
+        
+        // Find and select the correct letter
+        const letterIndex = this.scrambledLetters.indexOf(correctLetter);
+        if (letterIndex !== -1) {
+            this.selectLetter(letterIndex);
+            this.hintsUsed++;
+            this.updateStats();
         }
     }
     
-    startTimer() {
-        this.startTime = Date.now();
-        this.gameTimer = setInterval(() => {
-            const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
-            const minutes = Math.floor(elapsed / 60);
-            const seconds = elapsed % 60;
-            document.getElementById('gameTime').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }, 1000);
+    showResult(isCorrect) {
+        const resultDiv = document.getElementById('scrambleResult');
+        const resultMessage = resultDiv.querySelector('.result-message');
+        
+        if (isCorrect) {
+            resultMessage.textContent = '🎉 Correct! Amazing job! 🎉';
+            resultDiv.style.background = 'linear-gradient(135deg, var(--primary-gold), var(--primary-green))';
+        } else {
+            resultMessage.textContent = '❌ Not quite right. Try again! ❌';
+            resultDiv.style.background = 'linear-gradient(135deg, #ff6b6b, #ff8e53)';
+        }
+        
+        resultDiv.classList.remove('hidden');
+    }
+    
+    nextWord() {
+        this.currentWordIndex++;
+        this.loadWord();
     }
     
     updateStats() {
-        document.getElementById('moveCount').textContent = this.moves;
+        document.getElementById('currentWordNum').textContent = this.currentWordIndex + 1;
+        document.getElementById('scrambleScore').textContent = this.score;
+        document.getElementById('hintsUsed').textContent = this.hintsUsed;
     }
     
-    gameWon() {
-        clearInterval(this.gameTimer);
+    gameComplete() {
+        const resultDiv = document.getElementById('scrambleResult');
+        const resultMessage = resultDiv.querySelector('.result-message');
         
-        const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
-        const minutes = Math.floor(elapsed / 60);
-        const seconds = elapsed % 60;
-        const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        resultMessage.textContent = `🎊 Game Complete! Final Score: ${this.score} 🎊`;
+        resultDiv.style.background = 'linear-gradient(135deg, var(--primary-gold), var(--primary-pink))';
+        resultDiv.classList.remove('hidden');
         
-        document.getElementById('finalTime').textContent = timeStr;
-        document.getElementById('finalMoves').textContent = this.moves;
-        document.getElementById('gameMessage').classList.remove('hidden');
-        
-        // Celebration effect
-        this.celebrate();
-    }
-    
-    celebrate() {
-        // Add celebration animation to matched cards
-        this.cards.forEach(card => {
-            if (card.classList.contains('matched')) {
-                card.style.animation = 'matchPulse 0.6s ease 3';
-            }
-        });
-    }
-    
-    shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
+        // Hide game controls
+        document.getElementById('submitBtn').classList.add('hidden');
+        document.getElementById('shuffleBtn').classList.add('hidden');
+        document.getElementById('hintBtn').classList.add('hidden');
+        document.getElementById('nextBtn').classList.add('hidden');
     }
 }
 
-// Initialize memory game when DOM is loaded
+// Initialize word scramble game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new MemoryGame();
+    new WordScrambleGame();
 });
 
 // Initialize surprise engine when DOM is loaded
