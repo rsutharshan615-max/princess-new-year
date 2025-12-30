@@ -202,16 +202,84 @@
                     </div>
                 </div>
 
-                <!-- Roast or Praise Game -->
+                <!-- Press Your Luck: Roast or Praise -->
                 <div class="surprise-card roast-praise-container">
-                    <h2>🔥 Roast 😈 OR Praise 😇</h2>
-                    <p class="roast-praise-subtitle">Click at your own risk 😏</p>
+                    <h2>🎭 Press Your Luck: Roast 😈 or Praise 😇</h2>
+                    <p class="roast-praise-subtitle">Feeling brave today? 😏</p>
                     <div class="roast-praise-content">
+                        <div class="brave-meter">
+                            <div class="brave-level" id="braveLevel">
+                                <span class="brave-text">😌 Safe Zone</span>
+                                <div class="brave-bar">
+                                    <div class="brave-fill" id="braveFill"></div>
+                                </div>
+                            </div>
+                        </div>
                         <button id="roastPraiseBtn" class="roast-praise-btn">
-                            <span class="btn-text">Hit Me! 🎯</span>
+                            <span class="btn-text">👉 I'm Ready 😌</span>
                         </button>
                         <div id="roastPraiseResult" class="roast-praise-result">
                             <p class="result-text"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mood Detector -->
+                <div class="surprise-card mood-detector-container">
+                    <h2>🌈 How Are You Really Feeling?</h2>
+                    <p class="mood-subtitle">Tell me how you feel… I'll take care of the rest 💕</p>
+                    <div class="mood-content">
+                        <div class="mood-intro" id="moodIntro">
+                            <p>Hey Best Girl 💕<br>How are you feeling right now?</p>
+                            <p class="mood-hint">No pressure. Just tap what feels closest.</p>
+                        </div>
+                        <div class="mood-selection hidden" id="moodSelection">
+                            <div class="mood-grid">
+                                <div class="mood-card" data-mood="happy">
+                                    <div class="mood-emoji">😄</div>
+                                    <span class="mood-label">Happy</span>
+                                </div>
+                                <div class="mood-card" data-mood="sad">
+                                    <div class="mood-emoji">😔</div>
+                                    <span class="mood-label">Sad</span>
+                                </div>
+                                <div class="mood-card" data-mood="angry">
+                                    <div class="mood-emoji">😤</div>
+                                    <span class="mood-label">Angry</span>
+                                </div>
+                                <div class="mood-card" data-mood="tired">
+                                    <div class="mood-emoji">😴</div>
+                                    <span class="mood-label">Tired</span>
+                                </div>
+                                <div class="mood-card" data-mood="confused">
+                                    <div class="mood-emoji">😶</div>
+                                    <span class="mood-label">Confused</span>
+                                </div>
+                                <div class="mood-card" data-mood="loved">
+                                    <div class="mood-emoji">🥰</div>
+                                    <span class="mood-label">Loved</span>
+                                </div>
+                                <div class="mood-card" data-mood="overwhelmed">
+                                    <div class="mood-emoji">😢</div>
+                                    <span class="mood-label">Overwhelmed</span>
+                                </div>
+                                <div class="mood-card" data-mood="numb">
+                                    <div class="mood-emoji">🤍</div>
+                                    <span class="mood-label">Numb</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mood-response hidden" id="moodResponse">
+                            <div class="mood-message">
+                                <p class="mood-text"></p>
+                                <div class="mood-actions">
+                                    <button class="mood-action-btn primary"></button>
+                                    <button class="mood-action-btn secondary" id="moodSecondary"></button>
+                                </div>
+                            </div>
+                            <div class="mood-extra">
+                                <p class="mood-extra-text"></p>
+                            </div>
                         </div>
                     </div>
                 </div>

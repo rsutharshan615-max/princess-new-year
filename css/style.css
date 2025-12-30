@@ -843,6 +843,295 @@ body {
     }
 }
 
+/* Roast or Praise - Reimagined */
+.brave-meter {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.brave-level {
+    margin-bottom: 15px;
+}
+
+.brave-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-purple);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.brave-bar {
+    width: 200px;
+    height: 8px;
+    background: rgba(255, 105, 180, 0.2);
+    border-radius: 4px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.brave-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-pink), var(--primary-purple));
+    width: 20%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+/* Mood Detector Styles */
+.mood-detector-container {
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(255, 182, 193, 0.1));
+    border: 2px solid rgba(147, 112, 219, 0.3);
+}
+
+.mood-subtitle {
+    color: rgba(147, 112, 219, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.mood-intro {
+    text-align: center;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+.mood-intro p {
+    font-size: 1.2rem;
+    color: var(--primary-purple);
+    margin: 0 0 15px 0;
+}
+
+.mood-hint {
+    font-size: 0.9rem;
+    color: rgba(147, 112, 219, 0.7);
+    font-style: italic;
+}
+
+.mood-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.mood-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(147, 112, 219, 0.3);
+    border-radius: 20px;
+    padding: 20px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.mood-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(147, 112, 219, 0.3);
+    border-color: rgba(147, 112, 219, 0.6);
+}
+
+.mood-card.selected {
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.3), rgba(255, 182, 193, 0.3));
+    border-color: var(--primary-purple);
+    transform: scale(1.05);
+}
+
+.mood-emoji {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.mood-label {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.mood-response {
+    text-align: center;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    border: 2px solid rgba(147, 112, 219, 0.3);
+}
+
+.mood-message {
+    margin-bottom: 20px;
+}
+
+.mood-text {
+    font-size: 1.3rem;
+    color: var(--primary-purple);
+    font-weight: 600;
+    line-height: 1.6;
+    margin: 0 0 25px 0;
+}
+
+.mood-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.mood-action-btn {
+    background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mood-action-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(147, 112, 219, 0.4);
+}
+
+.mood-action-btn.secondary {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(147, 112, 219, 0.5);
+    color: var(--primary-purple);
+}
+
+.mood-action-btn.secondary:hover {
+    background: rgba(147, 112, 219, 0.2);
+}
+
+.mood-extra {
+    padding-top: 20px;
+    border-top: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+.mood-extra-text {
+    font-size: 0.9rem;
+    color: rgba(147, 112, 219, 0.8);
+    font-style: italic;
+    margin: 0;
+}
+
+/* Mobile Responsive for Mood Detector */
+@media (max-width: 768px) {
+    .mood-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .mood-card {
+        padding: 15px 10px;
+    }
+    
+    .mood-emoji {
+        font-size: 2rem;
+    }
+    
+    .mood-label {
+        font-size: 0.8rem;
+    }
+    
+    .mood-text {
+        font-size: 1.1rem;
+    }
+    
+    .mood-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .mood-action-btn {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mood-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .mood-card {
+        padding: 12px 8px;
+    }
+    
+    .mood-emoji {
+        font-size: 1.8rem;
+    }
+    
+    .mood-label {
+        font-size: 0.75rem;
+    }
+    
+    .mood-text {
+        font-size: 1rem;
+    }
+}
+
+/* Additional mobile fixes for small screens */
+@media (max-width: 360px) {
+    .roast-praise-container {
+        padding: 12px;
+        margin: 15px 5px;
+    }
+    
+    .roast-praise-container h2 {
+        font-size: 1.1rem;
+    }
+    
+    .roast-praise-subtitle {
+        font-size: 0.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .roast-praise-btn {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+    }
+    
+    .result-text {
+        font-size: 0.8rem;
+    }
+    
+    .roast-praise-result {
+        min-height: 45px;
+        padding: 8px;
+    }
+    
+    .brave-bar {
+        width: 150px;
+    }
+    
+    .mood-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+    
+    .mood-card {
+        padding: 10px 6px;
+    }
+    
+    .mood-emoji {
+        font-size: 1.5rem;
+    }
+    
+    .mood-label {
+        font-size: 0.7rem;
+    }
+}
+
 /* Spin Wheel */
 .wheel-section {
     margin: 20px 0;

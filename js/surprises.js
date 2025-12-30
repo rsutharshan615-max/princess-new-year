@@ -651,29 +651,13 @@ class SurpriseEngine {
     }
 }
 
-// Roast or Praise Game Logic
+// Roast or Praise Game Logic - Reimagined
 class RoastOrPraiseGame {
     constructor() {
-        this.roastMessages = [
-            "You overthink like it's your full-time job 😭",
-            "Drama level: Netflix Original 🎬",
-            "You say 'I'm fine' and mean 47 emotions 😏",
-            "Your mood swings have mood swings 🎢",
-            "You're allergic to early mornings ☕",
-            "Your phone battery dies faster than your motivation 📱",
-            "You have 100 tabs open in your brain 🧠",
-            "Your '5 minutes' means 30 minutes ⏰",
-            "You're the queen of 'I'll do it later' 👑",
-            "Your drama could win an Oscar 🏆",
-            "You're suspiciously good at finding problems 🔍",
-            "Your 'one last thing' is never one thing 🤷‍♀️",
-            "You have a PhD in overthinking 🎓",
-            "Your emotional range is impressive 😂",
-            "You're basically a walking meme generator 😈"
-        ];
-        
+        this.clickCount = 0;
+        this.braveLevel = 0;
         this.praiseMessages = [
-            "You make people feel safe just by existing 💖",
+            "You make people feel safe just by being yourself 💖",
             "You're rare. Like really rare ✨",
             "Someone's comfort person = YOU 🫶",
             "Your laugh is contagious 😄",
@@ -690,20 +674,28 @@ class RoastOrPraiseGame {
             "You're absolutely unforgettable 🌺"
         ];
         
-        this.buttonTexts = [
-            "Again 😏",
-            "One more 😂", 
-            "I'm brave 😈",
-            "Hit me again 🎯",
-            "Another round 🔄",
-            "Let's go! 🔥",
-            "Do your worst 😈",
-            "Bring it on! 💪",
-            "Surprise me 🎭",
-            "Challenge accepted 🎪"
+        this.lightRoasts = [
+            "You say 'I'm fine' like a professional liar 😈",
+            "Your '5 minutes' means 30 minutes ⏰",
+            "You have 100 tabs open in your brain 🧠",
+            "You're suspiciously good at finding problems 🔍",
+            "Your mood swings have mood swings 🎢",
+            "You're allergic to early mornings ☕",
+            "Your phone battery dies faster than your motivation 📱",
+            "You say 'one last thing' but it's never one thing 🤷‍♀️"
         ];
         
-        this.clickCount = 0;
+        this.spicyRoasts = [
+            "You overthink so much even Google gets tired 😈🔥",
+            "Drama level: Netflix Original 🎬",
+            "Your 'I'm fine' and mean 47 emotions 😏",
+            "You're the queen of 'I'll do it later' 👑",
+            "Your drama could win an Oscar 🏆",
+            "You have a PhD in overthinking 🎓",
+            "You're basically a walking meme generator 😈",
+            "Your emotional range is impressive 😂"
+        ];
+        
         this.init();
     }
     
@@ -720,62 +712,100 @@ class RoastOrPraiseGame {
     
     handleClick() {
         this.clickCount++;
+        this.updateBraveMeter();
         
-        // Random choice: 50% roast, 50% praise
-        const isRoast = Math.random() < 0.5;
+        let message, isRoast;
         
-        // Pick random message from correct array
-        const messages = isRoast ? this.roastMessages : this.praiseMessages;
-        const randomIndex = Math.floor(Math.random() * messages.length);
-        const message = messages[randomIndex];
-        
-        // Display result
-        this.displayResult(message, isRoast);
-        
-        // Update button text
-        this.updateButtonText();
-        
-        // Special easter egg for 10th click
-        if (this.clickCount === 10) {
-            this.triggerEasterEgg();
+        if (this.clickCount === 1) {
+            // First click - guaranteed praise
+            message = this.getRandomMessage(this.praiseMessages);
+            isRoast = false;
+            this.updateButtonText("👉 Again… maybe 😏");
+        } else if (this.clickCount === 2) {
+            // Second click - mixed zone
+            if (Math.random() < 0.5) {
+                message = this.getRandomMessage(this.praiseMessages);
+                isRoast = false;
+            } else {
+                message = this.getRandomMessage(this.lightRoasts);
+                isRoast = true;
+            }
+            this.updateButtonText("👉 One more time 🔥");
+        } else if (this.clickCount === 3) {
+            // Third click - spicy zone
+            message = this.getRandomMessage(this.spicyRoasts);
+            isRoast = true;
+            this.updateButtonText("👉 Okay okay, praise me 😭");
+        } else {
+            // Fourth+ clicks - mostly roasts with occasional praise
+            if (Math.random() < 0.8) {
+                message = this.getRandomMessage(this.spicyRoasts);
+                isRoast = true;
+            } else {
+                message = this.getRandomMessage(this.praiseMessages);
+                isRoast = false;
+            }
+            
+            // Force praise after 3 consecutive roasts
+            if (this.clickCount > 6 && Math.random() < 0.3) {
+                message = "Relax. You're still my favorite human. 💖";
+                isRoast = false;
+                this.clickCount = 1; // Reset to safe zone
+            }
         }
+        
+        this.displayResult(message, isRoast);
+        this.playSound();
+    }
+    
+    updateBraveMeter() {
+        const braveText = document.querySelector('.brave-text');
+        const braveFill = document.getElementById('braveFill');
+        
+        if (this.clickCount === 1) {
+            braveText.textContent = "😌 Safe Zone";
+            braveFill.style.width = "20%";
+        } else if (this.clickCount === 2) {
+            braveText.textContent = "👀 Okay… now it's risky";
+            braveFill.style.width = "50%";
+        } else if (this.clickCount === 3) {
+            braveText.textContent = "🔥 No turning back";
+            braveFill.style.width = "80%";
+        } else {
+            braveText.textContent = "😈 Danger Zone";
+            braveFill.style.width = "100%";
+        }
+    }
+    
+    updateButtonText(text) {
+        const buttonText = document.querySelector('.btn-text');
+        if (buttonText) {
+            buttonText.textContent = text;
+        }
+    }
+    
+    getRandomMessage(messages) {
+        return messages[Math.floor(Math.random() * messages.length)];
     }
     
     displayResult(message, isRoast) {
         const resultDiv = document.getElementById('roastPraiseResult');
         const resultText = resultDiv.querySelector('.result-text');
         
-        // Hide result first
         resultDiv.classList.remove('show', 'roast-mode', 'praise-mode');
         
-        // Set message
         resultText.textContent = message;
         
-        // Show result with animation after a small delay
         setTimeout(() => {
             resultDiv.classList.add('show', isRoast ? 'roast-mode' : 'praise-mode');
             
-            // Scroll result into view on mobile
             if (window.innerWidth <= 768) {
                 resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }, 100);
-        
-        // Play pop sound (optional - you can add this later)
-        this.playSound();
-    }
-    
-    updateButtonText() {
-        const button = document.getElementById('roastPraiseBtn');
-        const buttonText = button.querySelector('.btn-text');
-        
-        const randomText = this.buttonTexts[Math.floor(Math.random() * this.buttonTexts.length)];
-        buttonText.textContent = randomText;
     }
     
     playSound() {
-        // Optional: Add sound effect here
-        // You can create a simple pop sound using Web Audio API
         try {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const oscillator = audioContext.createOscillator();
@@ -796,63 +826,218 @@ class RoastOrPraiseGame {
             // Audio not supported, silently fail
         }
     }
-    
-    triggerEasterEgg() {
-        const resultDiv = document.getElementById('roastPraiseResult');
-        const resultText = resultDiv.querySelector('.result-text');
+}
+
+// Mood Detector Game Logic
+class MoodDetector {
+    constructor() {
+        this.moodResponses = {
+            happy: {
+                message: "I love this smile on you 😄 Keep it shining.",
+                primaryAction: "Spin something fun 🎡",
+                secondaryAction: "Save this mood 💾",
+                extra: "Screenshot this moment. You'll want to remember this feeling."
+            },
+            sad: {
+                message: "It's okay to feel like this. You don't need to be strong today.",
+                primaryAction: "Read something for you 💌",
+                secondaryAction: "Virtual hug 🤗",
+                extra: "If this feeling stays, remember I'm just one message away."
+            },
+            angry: {
+                message: "Your anger is valid. Don't swallow it.",
+                primaryAction: "Let it out 💥",
+                secondaryAction: "Distract me 🎧",
+                extra: "Your feelings matter. All of them."
+            },
+            tired: {
+                message: "You've done enough today.",
+                primaryAction: "Breathe with me 🌬️",
+                secondaryAction: "Rest mode 😴",
+                extra: "Rest is not lazy. It's necessary."
+            },
+            confused: {
+                message: "It's okay to not have all the answers right now.",
+                primaryAction: "Clear your mind 🧘",
+                secondaryAction: "Talk it out 💬",
+                extra: "Clarity comes with time, not force."
+            },
+            loved: {
+                message: "Good. Because you are.",
+                primaryAction: "Open a secret 💝",
+                secondaryAction: "Feel it more ❤️",
+                extra: "You deserve all the love in the world."
+            },
+            overwhelmed: {
+                message: "You're carrying too much. Let me help you put some down.",
+                primaryAction: "Take a break ☕",
+                secondaryAction: "One thing at a time 🎯",
+                extra: "You don't have to do everything at once."
+            },
+            numb: {
+                message: "Feeling nothing can be heavier than feeling everything.",
+                primaryAction: "Stay here with me for 10 seconds.",
+                secondaryAction: "Feel something small 🌱",
+                extra: "You're not alone in this feeling."
+            }
+        };
         
-        // Special message for 10th click
-        const specialMessage = "🎉 YOU'VE REACHED LEVEL 10! You're officially addicted to this game! 🏆 Special achievement unlocked: Bestie Game Master! 🎮";
-        
-        resultText.textContent = specialMessage;
-        resultDiv.classList.remove('roast-mode', 'praise-mode');
-        resultDiv.classList.add('show');
-        resultDiv.style.background = 'linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 105, 180, 0.3))';
-        resultText.style.color = '#FFD700';
-        resultText.style.fontSize = '1.4rem';
-        
-        // Add confetti effect (simple version)
-        this.createConfetti();
-        
-        // Reset after 5 seconds
-        setTimeout(() => {
-            resultDiv.style.background = '';
-            resultText.style.fontSize = '';
-            this.clickCount = 0; // Reset counter
-        }, 5000);
+        this.init();
     }
     
-    createConfetti() {
-        // Simple confetti effect using CSS
-        const colors = ['#FF69B4', '#FFD700', '#9B59B6', '#4CAF50', '#2196F3'];
-        const container = document.querySelector('.roast-praise-container');
-        
-        for (let i = 0; i < 30; i++) {
-            const confetti = document.createElement('div');
-            confetti.style.position = 'absolute';
-            confetti.style.width = '10px';
-            confetti.style.height = '10px';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.top = '-10px';
-            confetti.style.borderRadius = '50%';
-            confetti.style.zIndex = '1000';
-            confetti.style.pointerEvents = 'none';
-            
-            container.appendChild(confetti);
-            
-            // Animate confetti falling
-            const duration = Math.random() * 2 + 1;
-            const horizontalMovement = (Math.random() - 0.5) * 100;
-            
-            confetti.animate([
-                { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-                { transform: `translateY(300px) translateX(${horizontalMovement}px) rotate(360deg)`, opacity: 0 }
-            ], {
-                duration: duration * 1000,
-                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            }).onfinish = () => confetti.remove();
+    init() {
+        this.bindEvents();
+    }
+    
+    bindEvents() {
+        // Start mood detector
+        const moodIntro = document.getElementById('moodIntro');
+        if (moodIntro) {
+            moodIntro.addEventListener('click', () => this.showMoodSelection());
         }
+        
+        // Mood card selection
+        document.querySelectorAll('.mood-card').forEach(card => {
+            card.addEventListener('click', () => this.selectMood(card));
+        });
+    }
+    
+    showMoodSelection() {
+        const moodIntro = document.getElementById('moodIntro');
+        const moodSelection = document.getElementById('moodSelection');
+        
+        moodIntro.classList.add('hidden');
+        moodSelection.classList.remove('hidden');
+    }
+    
+    selectMood(card) {
+        const mood = card.dataset.mood;
+        const moodSelection = document.getElementById('moodSelection');
+        const moodResponse = document.getElementById('moodResponse');
+        
+        // Remove selected class from all cards
+        document.querySelectorAll('.mood-card').forEach(c => c.classList.remove('selected'));
+        
+        // Add selected class to clicked card
+        card.classList.add('selected');
+        
+        // Hide selection, show response
+        setTimeout(() => {
+            moodSelection.classList.add('hidden');
+            this.showMoodResponse(mood);
+        }, 300);
+    }
+    
+    showMoodResponse(mood) {
+        const moodResponse = document.getElementById('moodResponse');
+        const moodText = document.querySelector('.mood-text');
+        const primaryBtn = document.querySelector('.mood-action-btn.primary');
+        const secondaryBtn = document.getElementById('moodSecondary');
+        const extraText = document.querySelector('.mood-extra-text');
+        
+        const response = this.moodResponses[mood];
+        
+        moodText.textContent = response.message;
+        primaryBtn.textContent = response.primaryAction;
+        secondaryBtn.textContent = response.secondaryAction;
+        extraText.textContent = response.extra;
+        
+        moodResponse.classList.remove('hidden');
+        
+        // Add event listeners to action buttons
+        primaryBtn.onclick = () => this.handleAction(mood, 'primary');
+        secondaryBtn.onclick = () => this.handleAction(mood, 'secondary');
+    }
+    
+    handleAction(mood, actionType) {
+        const response = this.moodResponses[mood];
+        
+        switch (mood) {
+            case 'tired':
+                if (actionType === 'primary') {
+                    this.startBreathingExercise();
+                } else {
+                    this.showRestMode();
+                }
+                break;
+            case 'angry':
+                if (actionType === 'primary') {
+                    this.showVentArea();
+                } else {
+                    this.showDistraction();
+                }
+                break;
+            case 'numb':
+                if (actionType === 'primary') {
+                    this.startCountdown();
+                } else {
+                    this.showSmallFeeling();
+                }
+                break;
+            default:
+                this.showGeneralAction(response.primaryAction);
+        }
+    }
+    
+    startBreathingExercise() {
+        const moodText = document.querySelector('.mood-text');
+        moodText.innerHTML = "Let's breathe together<br><span id='breathText'>Inhale... 4... 3... 2... 1...</span>";
+        
+        let step = 0;
+        const steps = [
+            { text: "Inhale... 4... 3... 2... 1...", duration: 4000 },
+            { text: "Hold... 4... 3... 2... 1...", duration: 4000 },
+            { text: "Exhale... 6... 5... 4... 3... 2... 1...", duration: 6000 }
+        ];
+        
+        function nextStep() {
+            if (step < steps.length) {
+                document.getElementById('breathText').textContent = steps[step].text;
+                setTimeout(nextStep, steps[step].duration);
+                step++;
+            } else {
+                moodText.innerHTML = "Feel better? 💕<br><small>You can do this as many times as you need.</small>";
+            }
+        }
+        
+        nextStep();
+    }
+    
+    showVentArea() {
+        const moodText = document.querySelector('.mood-text');
+        moodText.innerHTML = `
+            <textarea id="ventArea" placeholder="Let it all out... I'm listening 💕" 
+                      style="width: 100%; height: 100px; padding: 10px; border-radius: 10px; 
+                             border: 2px solid rgba(147, 112, 219, 0.3); background: rgba(255, 255, 255, 0.1); 
+                             color: var(--text-dark); resize: none;"></textarea>
+            <button onclick="this.clearVent()" style="margin-top: 10px; padding: 8px 16px; 
+                                                   background: var(--primary-purple); color: white; 
+                                                   border: none; border-radius: 20px; cursor: pointer;">
+                Clear & Send 💨
+            </button>
+        `;
+    }
+    
+    startCountdown() {
+        const moodText = document.querySelector('.mood-text');
+        let count = 10;
+        
+        moodText.innerHTML = `Stay here with me... <span id="countdown">${count}</span>`;
+        
+        const timer = setInterval(() => {
+            count--;
+            document.getElementById('countdown').textContent = count;
+            
+            if (count === 0) {
+                clearInterval(timer);
+                moodText.innerHTML = "You're not alone. 💕<br><small>I'm right here with you.</small>";
+            }
+        }, 1000);
+    }
+    
+    showGeneralAction(action) {
+        const moodText = document.querySelector('.mood-text');
+        moodText.innerHTML = `${action}<br><small>This action would take you to another feature!</small>`;
     }
 }
 
@@ -1072,9 +1257,14 @@ document.addEventListener('DOMContentLoaded', () => {
     new WordScrambleGame();
 });
 
-// Initialize roast or praise game when DOM is loaded
+// Initialize reimagined roast or praise game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new RoastOrPraiseGame();
+});
+
+// Initialize mood detector when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new MoodDetector();
 });
 
 // Initialize surprise engine when DOM is loaded
