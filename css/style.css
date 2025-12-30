@@ -775,25 +775,71 @@ body {
 
 @media (max-width: 480px) {
     .roast-praise-container {
-        padding: 20px;
+        padding: 15px;
+        margin: 20px 10px;
     }
     
     .roast-praise-container h2 {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+    
+    .roast-praise-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
     }
     
     .roast-praise-btn {
-        padding: 12px 25px;
-        font-size: 1rem;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 250px;
     }
     
     .result-text {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        line-height: 1.4;
     }
     
     .roast-praise-result {
-        min-height: 60px;
+        min-height: 50px;
+        padding: 10px;
+        margin: 15px 0;
+    }
+    
+    .roast-praise-content {
+        gap: 20px;
+    }
+}
+
+/* Additional mobile fixes for small screens */
+@media (max-width: 360px) {
+    .roast-praise-container {
         padding: 12px;
+        margin: 15px 5px;
+    }
+    
+    .roast-praise-container h2 {
+        font-size: 1.1rem;
+    }
+    
+    .roast-praise-subtitle {
+        font-size: 0.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .roast-praise-btn {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+    }
+    
+    .result-text {
+        font-size: 0.8rem;
+    }
+    
+    .roast-praise-result {
+        min-height: 45px;
+        padding: 8px;
     }
 }
 
