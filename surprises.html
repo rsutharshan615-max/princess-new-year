@@ -104,8 +104,8 @@
                             </div>
                             <button id="spinBtn" class="spin-btn">SPIN! 🎰</button>
                         </div>
-                        <div id="wheelResult" class="wheel-result show">
-                            <p class="result-text">🎉 Test Result - This should be visible!</p>
+                        <div id="wheelResult" class="wheel-result hidden">
+                            <p class="result-text"></p>
                         </div>
                     </div>
 
@@ -302,6 +302,44 @@
 
     <script src="js/surprises.js"></script>
     <script>
+        // Fallback wheel functionality if external JS fails
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const spinBtn = document.getElementById('spinBtn');
+                const wheel = document.getElementById('wheel');
+                
+                if (spinBtn && wheel && !spinBtn.onclick) {
+                    let isSpinning = false;
+                    
+                    spinBtn.addEventListener('click', () => {
+                        if (isSpinning) return;
+                        isSpinning = true;
+                        
+                        const randomDegree = Math.floor(Math.random() * 360) + 720;
+                        wheel.style.transform = `rotate(${randomDegree}deg)`;
+                        
+                        setTimeout(() => {
+                            const prizes = ['Chocolates 🍫', 'Pani Puri 🍱', 'Life Advice 🧠', 'Dance Party 🕺', 'Special Gifts 🎁', 'Free Hug 🤗'];
+                            const prizeIndex = Math.floor(((randomDegree % 360) + 15) / 60) % prizes.length;
+                            const result = prizes[prizeIndex];
+                            
+                            const wheelResult = document.getElementById('wheelResult');
+                            const resultText = document.querySelector('.result-text');
+                            
+                            if (wheelResult && resultText) {
+                                wheelResult.classList.remove('hidden');
+                                wheelResult.classList.add('show');
+                                resultText.textContent = `🎉 You won: ${result}`;
+                            }
+                            
+                            isSpinning = false;
+                        }, 3000);
+                    });
+                }
+            }, 2000);
+        });
+    </script>
+    <script>
         // Scratch Card Implementation
         const canvas = document.getElementById('scratchCanvas');
         const ctx = canvas.getContext('2d');
@@ -368,42 +406,7 @@
             }
         });
 
-        // Spin the Wheel
-        let isSpinning = false;
-        document.getElementById('spinBtn').addEventListener('click', () => {
-            if (isSpinning) return;
-            isSpinning = true;
-            
-            const wheel = document.getElementById('wheel');
-            const randomDegree = Math.floor(Math.random() * 360) + 720; // At least 2 full rotations
-            wheel.style.transform = `rotate(${randomDegree}deg)`;
-            
-            setTimeout(() => {
-                const prizes = ['Free Hug Voucher 🤗', 'Movie Night Promise 🎬', 'Coffee on Me ☕', 'You\'re My Favorite! 💕', 'Life Advice Session 🧠', 'Dance Party! 🕺'];
-                const prizeIndex = Math.floor((randomDegree % 360) / 60);
-                const result = prizes[prizeIndex];
-                
-                const wheelResult = document.getElementById('wheelResult');
-                const resultText = document.querySelector('.result-text');
-                
-                // Clear any existing classes
-                wheelResult.classList.remove('hidden');
-                wheelResult.classList.add('show');
-                
-                // Set the result text with HTML for better visibility
-                resultText.innerHTML = `<div style="color: #2C3E50; font-weight: 900; font-size: 1.3rem;">🎉 You won: ${result}</div>`;
-                
-                // Force visibility
-                resultText.style.color = '#2C3E50';
-                resultText.style.fontWeight = '900';
-                resultText.style.fontSize = '1.3rem';
-                resultText.style.display = 'block';
-                resultText.style.visibility = 'visible';
-                resultText.style.opacity = '1';
-                
-                isSpinning = false;
-            }, 3000);
-        });
+        // Spin the Wheel functionality is handled by surprises.js
 
         // Random Messages
         const messages = [

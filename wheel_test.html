@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wheel Test</title>
+    <style>
+        .wheel-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #2C3E50;
+            border: 3px solid #FFD700;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s ease;
+        }
+
+        .wheel-result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .wheel-result.hidden {
+            display: none;
+        }
+
+        .wheel-result .result-text {
+            margin: 0;
+            line-height: 1.4;
+            color: #2C3E50 !important;
+            font-weight: 900 !important;
+            font-size: 1.3rem !important;
+            text-shadow: none !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .wheel {
+            width: 300px;
+            height: 300px;
+            border: 5px solid #FFD700;
+            border-radius: 50%;
+            position: relative;
+            transition: transform 3s ease-out;
+            background: conic-gradient(
+                from 0deg,
+                #FF69B4 0deg 60deg,
+                #87CEEB 60deg 120deg,
+                #98FB98 120deg 180deg,
+                #FFD700 180deg 240deg,
+                #FF6347 240deg 300deg,
+                #DDA0DD 300deg 360deg
+            );
+        }
+
+        .spin-btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #FF69B4, #FFD700);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .spin-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .spin-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wheel Test</h1>
+    
+    <div class="wheel" id="wheel"></div>
+    <button id="spinBtn" class="spin-btn">SPIN! 🎰</button>
+    
+    <div id="wheelResult" class="wheel-result hidden">
+        <p class="result-text"></p>
+    </div>
+
+    <script>
+        // Simple wheel test
+        let isSpinning = false;
+        document.getElementById('spinBtn').addEventListener('click', () => {
+            if (isSpinning) return;
+            isSpinning = true;
+            
+            const wheel = document.getElementById('wheel');
+            const randomDegree = Math.floor(Math.random() * 360) + 720;
+            wheel.style.transform = `rotate(${randomDegree}deg)`;
+            
+            setTimeout(() => {
+                const prizes = ['Chocolates 🍫', 'Pani Puri 🍱', 'Life Advice 🧠', 'Dance Party 🕺', 'Special Gifts 🎁', 'Free Hug 🤗'];
+                const prizeIndex = Math.floor(((randomDegree % 360) + 15) / 60) % prizes.length;
+                const result = prizes[prizeIndex];
+                
+                const wheelResult = document.getElementById('wheelResult');
+                const resultText = document.querySelector('.result-text');
+                
+                console.log('Test - Result elements:', { wheelResult, resultText });
+                
+                wheelResult.classList.remove('hidden');
+                wheelResult.classList.add('show');
+                
+                resultText.textContent = `🎉 You won: ${result}`;
+                
+                console.log('Test - Classes after:', wheelResult.className);
+                console.log('Test - Text content:', resultText.textContent);
+                
+                isSpinning = false;
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

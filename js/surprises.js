@@ -442,7 +442,7 @@ class SurpriseEngine {
         if (resultDiv && resultText) {
             resultText.textContent = `🎉 You won: ${prize}`;
             resultDiv.classList.remove('hidden');
-            resultDiv.classList.add('animate-bounce');
+            resultDiv.classList.add('show', 'animate-bounce');
             
             // Celebration
             this.createMiniCelebration();
@@ -450,7 +450,7 @@ class SurpriseEngine {
             // Hide after delay
             setTimeout(() => {
                 resultDiv.classList.add('hidden');
-                resultDiv.classList.remove('animate-bounce');
+                resultDiv.classList.remove('show', 'animate-bounce');
             }, 5000);
         }
     }
@@ -1306,6 +1306,17 @@ document.addEventListener('DOMContentLoaded', () => {
 // Initialize surprise engine when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.surpriseEngine = new SurpriseEngine();
+    
+    // Double-check wheel initialization after a short delay
+    setTimeout(() => {
+        const spinBtn = document.getElementById('spinBtn');
+        const wheel = document.getElementById('wheel');
+        
+        if (spinBtn && wheel && !spinBtn.hasAttribute('data-initialized')) {
+            window.surpriseEngine.initSpinWheel();
+            spinBtn.setAttribute('data-initialized', 'true');
+        }
+    }, 1000);
 });
 
 // Export for use in other files
