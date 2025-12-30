@@ -880,13 +880,14 @@ body {
 
 /* Mood Detector Styles */
 .mood-detector-container {
-    background: linear-gradient(135deg, rgba(147, 112, 219, 0.15), rgba(255, 182, 193, 0.15));
-    border: 2px solid rgba(147, 112, 219, 0.5);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 248, 255, 0.95));
+    border: 3px solid #0066CC;
     border-radius: 25px;
     padding: 35px;
     margin: 30px 0;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 102, 204, 0.3);
 }
 
 .mood-detector-container::before {
@@ -896,7 +897,7 @@ body {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(147, 112, 219, 0.08), transparent);
+    background: linear-gradient(45deg, transparent, rgba(0, 102, 204, 0.1), transparent);
     animation: shimmer 8s linear infinite;
 }
 
@@ -906,41 +907,42 @@ body {
 }
 
 .mood-subtitle {
-    color: #0066CC;
+    color: #004080;
     font-size: 1.2rem;
     margin-bottom: 30px;
-    font-weight: 800;
+    font-weight: 900;
     text-align: center;
     position: relative;
     z-index: 1;
-    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
 }
 
 .mood-intro {
     text-align: center;
     padding: 35px;
-    background: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 20px;
     margin-bottom: 30px;
-    border: 2px solid rgba(0, 102, 204, 0.4);
+    border: 3px solid #0066CC;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     z-index: 1;
+    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.2);
 }
 
 .mood-intro:hover {
-    background: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.95);
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 102, 204, 0.3);
+    box-shadow: 0 12px 30px rgba(0, 102, 204, 0.3);
 }
 
 .mood-intro p {
     font-size: 1.3rem;
-    color: #0066CC;
+    color: #004080;
     margin: 0 0 15px 0;
-    font-weight: 800;
-    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+    font-weight: 900;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
 }
 
 .mood-hint {
@@ -948,38 +950,176 @@ body {
     color: #0066CC;
     font-style: italic;
     opacity: 1;
-    font-weight: 600;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+.mood-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.mood-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 3px solid #0066CC;
+    border-radius: 20px;
+    padding: 25px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.2);
+}
+
+.mood-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent, rgba(0, 102, 204, 0.2));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mood-card:hover::before {
+    opacity: 1;
+}
+
+.mood-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(0, 102, 204, 0.4);
+    border-color: #004080;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.mood-card.selected {
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.3), rgba(0, 153, 255, 0.3));
+    border-color: #004080;
+    transform: scale(1.05);
+    box-shadow: 0 15px 35px rgba(0, 102, 204, 0.5);
+}
+
+.mood-card.selected::before {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.3), rgba(0, 153, 255, 0.3));
+}
+
+.mood-emoji {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: block;
+    line-height: 1;
 }
 
 .mood-label {
     font-size: 1rem;
-    color: #0066CC;
-    font-weight: 800;
+    color: #004080;
+    font-weight: 900;
     position: relative;
     z-index: 1;
-    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
+}
+
+.mood-response {
+    text-align: center;
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    border: 3px solid #0066CC;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.2);
+}
+
+.mood-message {
+    margin-bottom: 25px;
 }
 
 .mood-text {
     font-size: 1.4rem;
-    color: #0066CC;
-    font-weight: 800;
+    color: #004080;
+    font-weight: 900;
     line-height: 1.6;
     margin: 0 0 25px 0;
-    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
+}
+
+.mood-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.mood-action-btn {
+    background: linear-gradient(135deg, #0066CC, #0099FF);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.3);
+}
+
+.mood-action-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.mood-action-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.mood-action-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(0, 102, 204, 0.5);
 }
 
 .mood-action-btn.secondary {
-    background: rgba(255, 255, 255, 0.4);
-    border: 2px solid #0066CC;
+    background: rgba(255, 255, 255, 0.9);
+    border: 3px solid #0066CC;
     color: #0066CC;
-    font-weight: 800;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    font-weight: 900;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.2);
 }
 
 .mood-action-btn.secondary:hover {
-    background: rgba(0, 102, 204, 0.2);
+    background: rgba(0, 102, 204, 0.1);
+}
+
+.mood-extra {
+    padding-top: 20px;
+    border-top: 2px solid #0066CC;
 }
 
 .mood-extra-text {
@@ -988,32 +1128,40 @@ body {
     font-style: italic;
     margin: 0;
     line-height: 1.4;
-    font-weight: 600;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+.mood-reset {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid #0066CC;
+    text-align: center;
 }
 
 .mood-reset-btn {
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.3), rgba(0, 153, 255, 0.3));
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 153, 255, 0.2));
     color: #0066CC;
-    border: 2px solid #0066CC;
+    border: 3px solid #0066CC;
     padding: 12px 25px;
     border-radius: 25px;
     font-size: 0.9rem;
-    font-weight: 800;
+    font-weight: 900;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
     position: relative;
     overflow: hidden;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.2);
 }
 
 .mood-reset-btn:hover {
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.4);
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.4), rgba(0, 153, 255, 0.4));
-    border-color: #0066CC;
+    box-shadow: 0 12px 30px rgba(0, 102, 204, 0.4);
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.3), rgba(0, 153, 255, 0.3));
+    border-color: #004080;
 }
 
 /* Mobile Responsive for Mood Detector */
