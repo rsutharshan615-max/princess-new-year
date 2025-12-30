@@ -383,7 +383,9 @@
                 const prizeIndex = Math.floor((randomDegree % 360) / 60);
                 const result = prizes[prizeIndex];
                 
-                document.getElementById('wheelResult').classList.remove('hidden');
+                const wheelResult = document.getElementById('wheelResult');
+                wheelResult.classList.remove('hidden');
+                wheelResult.classList.add('show');
                 document.querySelector('.result-text').textContent = `🎉 You won: ${result}`;
                 isSpinning = false;
             }, 3000);

@@ -1800,15 +1800,27 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.wheel-result.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .wheel-result.hidden {
     display: none;
 }
 
-.result-text {
+.wheel-result .result-text {
     margin: 0;
     line-height: 1.4;
+    color: #2C3E50 !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    text-shadow: none !important;
 }
 
 /* Messages Container */
