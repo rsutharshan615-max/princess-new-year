@@ -215,34 +215,15 @@ class SurpriseEngine {
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Set scratch surface with gradient
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        gradient.addColorStop(0, '#FF69B4');
-        gradient.addColorStop(0.5, '#FF1493');
-        gradient.addColorStop(1, '#9B59B6');
-        ctx.fillStyle = gradient;
+        // Set scratch surface
+        ctx.fillStyle = '#FF69B4';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // Add decorative text
+        // Add text
         ctx.fillStyle = '#FFFFFF';
         ctx.font = 'bold 24px Poppins';
         ctx.textAlign = 'center';
-        ctx.fillText('SCRATCH ME!', canvas.width / 2, canvas.height / 2 - 10);
-        ctx.font = '16px Poppins';
-        ctx.fillText('✨ Reveal the surprise ✨', canvas.width / 2, canvas.height / 2 + 15);
-        
-        // Add sparkles
-        for (let i = 0; i < 5; i++) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-            ctx.beginPath();
-            ctx.arc(x, y, 2, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        
-        // Reset progress
-        document.getElementById('scratchProgress').textContent = 'Scratch 50% to reveal!';
+        ctx.fillText('SCRATCH ME!', canvas.width / 2, canvas.height / 2);
         
         // Update hidden message
         const messages = this.surpriseData.scratchMessages;
@@ -260,10 +241,10 @@ class SurpriseEngine {
         
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath();
-        ctx.arc(x, y, 20, 0, Math.PI * 2);
+        ctx.arc(x, y, 25, 0, Math.PI * 2);
         ctx.fill();
         
-        // Check scratch progress
+        // Check if enough has been scratched
         this.checkScratchProgress(ctx, canvas);
     }
 
@@ -278,15 +259,8 @@ class SurpriseEngine {
             }
         }
         
-        const percentage = Math.round((transparent / (canvas.width * canvas.height)) * 100);
+        const percentage = (transparent / (canvas.width * canvas.height)) * 100;
         
-        // Update progress display
-        const progressElement = document.getElementById('scratchProgress');
-        if (progressElement) {
-            progressElement.textContent = `Scratched: ${percentage}%`;
-        }
-        
-        // Reveal message when enough is scratched
         if (percentage > 50) {
             this.revealScratchMessage();
         }
@@ -298,9 +272,6 @@ class SurpriseEngine {
             canvas.style.opacity = '0.3';
             canvas.style.pointerEvents = 'none';
             
-            // Update progress
-            document.getElementById('scratchProgress').textContent = 'Message revealed! 🎉';
-            
             // Add celebration effect
             this.createMiniCelebration();
             
@@ -310,7 +281,7 @@ class SurpriseEngine {
                 canvas.style.pointerEvents = 'auto';
                 const ctx = canvas.getContext('2d');
                 this.resetScratchCard(ctx, canvas);
-            }, 5000);
+            }, 3000);
         }
     }
 
@@ -627,15 +598,288 @@ class SurpriseEngine {
     }
 }
 
+// Puzzle Game Logic
+class PuzzleGame {
+    constructor() {
+        this.imageUrl = 'C:/Users/Sutharshanaram/Downloads/WhatsApp Image 2025-10-15 at 7.21.42 PM (1).jpeg';
+        this.gridSize = 4;
+        this.pieces = [];
+        this.placedPieces = 0;
+        this.startTime = null;
+        this.timer = null;
+        this.isInitialized = false;
+        
+        this.init();
+    }
+    
+    init() {
+        this.bindEvents();
+    }
+    
+    bindEvents() {
+        const startBtn = document.getElementById('startPuzzleBtn');
+        const hintBtn = document.getElementById('hintBtn');
+        
+        if (startBtn) {
+            startBtn.addEventListener('click', () => this.startPuzzle());
+        }
+        
+        if (hintBtn) {
+            hintBtn.addEventListener('click', () => this.showHint());
+        }
+    }
+    
+    startPuzzle() {
+        this.placedPieces = 0;
+        this.startTime = Date.now();
+        this.isInitialized = true;
+        
+        // Update UI
+        document.getElementById('piecesPlaced').textContent = '0';
+        document.getElementById('puzzleComplete').classList.add('hidden');
+        
+        // Create puzzle pieces
+        this.createPuzzlePieces();
+        
+        // Start timer
+        this.startTimer();
+    }
+    
+    createPuzzlePieces() {
+        const board = document.getElementById('puzzleBoard');
+        if (!board) return;
+        
+        // Clear board
+        board.innerHTML = '';
+        this.pieces = [];
+        
+        // Create grid
+        board.style.display = 'grid';
+        board.style.gridTemplateColumns = `repeat(${this.gridSize}, 1fr)`;
+        board.style.gap = '2px';
+        board.style.width = '400px';
+        board.style.height = '400px';
+        board.style.margin = '0 auto';
+        
+        // Create pieces
+        for (let i = 0; i < this.gridSize * this.gridSize; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'puzzle-piece';
+            piece.dataset.correctPosition = i;
+            piece.dataset.currentPosition = i;
+            
+            // Calculate background position
+            const row = Math.floor(i / this.gridSize);
+            const col = i % this.gridSize;
+            const bgPosX = -(col * 100);
+            const bgPosY = -(row * 100);
+            
+            piece.style.backgroundImage = `url(${this.imageUrl})`;
+            piece.style.backgroundSize = `${this.gridSize * 100}px ${this.gridSize * 100}px`;
+            piece.style.backgroundPosition = `${bgPosX}px ${bgPosY}px`;
+            piece.style.width = '98px';
+            piece.style.height = '98px';
+            piece.style.border = '1px solid #ddd';
+            piece.style.cursor = 'move';
+            piece.style.transition = 'all 0.3s ease';
+            
+            // Add drag functionality
+            this.addDragFunctionality(piece, i);
+            
+            board.appendChild(piece);
+            this.pieces.push(piece);
+        }
+        
+        // Shuffle pieces after a delay
+        setTimeout(() => this.shufflePieces(), 1000);
+    }
+    
+    addDragFunctionality(piece, originalIndex) {
+        let draggedElement = null;
+        
+        piece.addEventListener('dragstart', (e) => {
+            draggedElement = e.target;
+            e.target.style.opacity = '0.5';
+        });
+        
+        piece.addEventListener('dragend', (e) => {
+            e.target.style.opacity = '';
+        });
+        
+        piece.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+        
+        piece.addEventListener('drop', (e) => {
+            e.preventDefault();
+            if (e.target.classList.contains('puzzle-piece') && draggedElement !== e.target) {
+                // Swap pieces
+                this.swapPieces(draggedElement, e.target);
+            }
+        });
+        
+        // Touch support for mobile
+        let touchItem = null;
+        
+        piece.addEventListener('touchstart', (e) => {
+            touchItem = e.target;
+            e.target.style.opacity = '0.5';
+        });
+        
+        piece.addEventListener('touchend', (e) => {
+            e.target.style.opacity = '';
+            const touch = e.changedTouches[0];
+            const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+            
+            if (elementBelow && elementBelow.classList.contains('puzzle-piece') && elementBelow !== touchItem) {
+                this.swapPieces(touchItem, elementBelow);
+            }
+        });
+    }
+    
+    swapPieces(piece1, piece2) {
+        // Swap background positions
+        const tempBg = piece1.style.backgroundPosition;
+        const tempCorrect = piece1.dataset.correctPosition;
+        
+        piece1.style.backgroundPosition = piece2.style.backgroundPosition;
+        piece1.dataset.correctPosition = piece2.dataset.correctPosition;
+        
+        piece2.style.backgroundPosition = tempBg;
+        piece2.dataset.correctPosition = tempCorrect;
+        
+        // Check if pieces are in correct positions
+        this.checkPiecePlacement(piece1);
+        this.checkPiecePlacement(piece2);
+        
+        // Update placed pieces count
+        this.updatePlacedCount();
+    }
+    
+    checkPiecePlacement(piece) {
+        const correctPos = piece.dataset.correctPosition;
+        const currentPos = piece.dataset.currentPosition;
+        
+        if (correctPos === currentPos) {
+            piece.style.border = '2px solid #4CAF50';
+            piece.style.boxShadow = '0 0 10px rgba(76, 175, 80, 0.5)';
+        } else {
+            piece.style.border = '1px solid #ddd';
+            piece.style.boxShadow = '';
+        }
+    }
+    
+    shufflePieces() {
+        const positions = [];
+        for (let i = 0; i < this.pieces.length; i++) {
+            const row = Math.floor(i / this.gridSize);
+            const col = i % this.gridSize;
+            positions.push({
+                bgPosX: -(col * 100),
+                bgPosY: -(row * 100),
+                correctPos: i
+            });
+        }
+        
+        // Shuffle positions
+        for (let i = positions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [positions[i], positions[j]] = [positions[j], positions[i]];
+        }
+        
+        // Apply shuffled positions
+        this.pieces.forEach((piece, index) => {
+            const pos = positions[index];
+            piece.style.backgroundPosition = `${pos.bgPosX}px ${pos.bgPosY}px`;
+            piece.dataset.correctPosition = pos.correctPos;
+            this.checkPiecePlacement(piece);
+        });
+    }
+    
+    showHint() {
+        // Briefly show correct positions
+        this.pieces.forEach(piece => {
+            const correctPos = piece.dataset.correctPosition;
+            const currentPos = piece.dataset.currentPosition;
+            
+            if (correctPos === currentPos) {
+                piece.style.border = '3px solid #4CAF50';
+                piece.style.boxShadow = '0 0 15px rgba(76, 175, 80, 0.8)';
+            } else {
+                piece.style.border = '3px solid #ff9800';
+                piece.style.boxShadow = '0 0 15px rgba(255, 152, 0, 0.8)';
+            }
+        });
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+            this.pieces.forEach(piece => {
+                this.checkPiecePlacement(piece);
+            });
+        }, 2000);
+    }
+    
+    updatePlacedCount() {
+        let correctCount = 0;
+        this.pieces.forEach(piece => {
+            if (piece.dataset.correctPosition === piece.dataset.currentPosition) {
+                correctCount++;
+            }
+        });
+        
+        this.placedPieces = correctCount;
+        document.getElementById('piecesPlaced').textContent = correctCount;
+        
+        // Check if puzzle is complete
+        if (correctCount === this.pieces.length) {
+            this.puzzleComplete();
+        }
+    }
+    
+    startTimer() {
+        this.timer = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('puzzleTime').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    }
+    
+    puzzleComplete() {
+        clearInterval(this.timer);
+        
+        const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+        const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        document.getElementById('finalPuzzleTime').textContent = timeStr;
+        document.getElementById('puzzleComplete').classList.remove('hidden');
+        
+        // Celebration effect
+        this.celebrate();
+    }
+    
+    celebrate() {
+        // Add celebration animation to pieces
+        this.pieces.forEach((piece, index) => {
+            setTimeout(() => {
+                piece.style.animation = 'placePiece 0.5s ease';
+            }, index * 50);
+        });
+    }
+}
+
 // Word Scramble Game Logic
 class WordScrambleGame {
     constructor() {
         this.words = [
-            { word: 'AKKA', hint: 'What you call me! 👑' },
-            { word: 'HARIN', hint: 'My name! 🌟' },
-            { word: 'BROSIS', hint: 'Our relationship! 💕' },
-            { word: 'FRIENDSHIP', hint: 'What we have! 🤗' },
-            { word: 'BLOODLINE', hint: 'Our connection! 👨‍👩‍👧‍👦' }
+            { word: 'PRINCESS', hint: 'What I call you! 👑' },
+            { word: 'SISTER', hint: 'Our special bond! 💕' },
+            { word: 'BESTIE', hint: 'What we are! 🤗' },
+            { word: 'FOREVER', hint: 'How long our friendship lasts! ∞' },
+            { word: 'FRIEND', hint: 'What you are to me! 🌟' }
         ];
         
         this.currentWordIndex = 0;
@@ -837,6 +1081,11 @@ class WordScrambleGame {
         document.getElementById('nextBtn').classList.add('hidden');
     }
 }
+
+// Initialize puzzle game when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new PuzzleGame();
+});
 
 // Initialize word scramble game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
